@@ -39,12 +39,12 @@
             </command>
             <command commandId="QuickOpener.commands.filesystem"
                   icon="icons/folder-documents-icon.png"
-                  tooltip="Open in the default OS shell"
+                  tooltip="Open in the OS file system browser"
                   id="QuickOpener.toolbars.quickopener.filesystem">
             </command>
             <command commandId="QuickOpener.commands.path"
                   icon="icons/path.png"
-                  tooltip="Open in the default OS shell"
+                  tooltip="Copy the path to the clipboard"
                   id="QuickOpener.toolbars.quickopener.path">
             </command>
          </toolbar>
