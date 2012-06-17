@@ -3,7 +3,11 @@ package com.sessonad.quickopener.commands;
 
 import com.sessonad.quickopener.OperatingSystem;
 import  com.sessonad.quickopener.OSDetector;
+
+import java.awt.Desktop;
 import java.io.File;
+import java.io.IOException;
+
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
@@ -25,11 +29,33 @@ public abstract class Commands {
     
     static Commands platform;
     
+    public abstract OperatingSystem getOperatingSystem();
     
-    public abstract void browseInFileSystem(File current) throws Exception;
+    public void openInShell(String currentPath) throws Exception {
+        String fullCommand = getOperatingSystem().getShellCommand() + currentPath;
+         Runtime.getRuntime().exec(fullCommand);
+    }
     
-    public abstract void openInShell(String currentPath) throws Exception;
-        
+    public void browseInFileSystem(File current) throws Exception {
+        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.OPEN)) {
+            try {
+                Desktop.getDesktop().open(current);
+            } catch (IOException e) {
+                // Run the process as a fallback, as on
+                // some systems Desktop.open fails despite claiming
+                // to support it.
+                executeFileSystemBrowserCommand(current);
+            }
+        } else {
+            executeFileSystemBrowserCommand(current);
+        }
+    }
+
+    protected void executeFileSystemBrowserCommand(File current) throws IOException {
+        String fullCommand = getOperatingSystem().getFileSystemBrowserCommand() + current.getAbsolutePath();
+        Runtime.getRuntime().exec(fullCommand);
+    }
+    
     @SuppressWarnings("unchecked")
     public static <T extends Commands> T getPlatform(){
         if (platform == null)initializePlatform();
