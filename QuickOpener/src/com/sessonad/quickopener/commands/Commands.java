@@ -8,18 +8,6 @@ import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IResource;
-import org.eclipse.core.runtime.IPath;
-import org.eclipse.jface.text.ITextSelection;
-import org.eclipse.jface.viewers.ISelection;
-import org.eclipse.jface.viewers.IStructuredSelection;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.ide.ResourceSelectionUtil;
-import org.eclipse.ui.ide.ResourceUtil;
 
 /**
  *
@@ -28,33 +16,6 @@ import org.eclipse.ui.ide.ResourceUtil;
 public abstract class Commands {
     
     static Commands platform;
-    
-    public abstract OperatingSystem getOperatingSystem();
-    
-    public void openInShell(String currentPath) throws Exception {
-        String fullCommand = getOperatingSystem().getShellCommand() + currentPath;
-         Runtime.getRuntime().exec(fullCommand);
-    }
-    
-    public void browseInFileSystem(File current) throws Exception {
-        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.OPEN)) {
-            try {
-                Desktop.getDesktop().open(current);
-            } catch (IOException e) {
-                // Run the process as a fallback, as on
-                // some systems Desktop.open fails despite claiming
-                // to support it.
-                executeFileSystemBrowserCommand(current);
-            }
-        } else {
-            executeFileSystemBrowserCommand(current);
-        }
-    }
-
-    protected void executeFileSystemBrowserCommand(File current) throws IOException {
-        String fullCommand = getOperatingSystem().getFileSystemBrowserCommand() + current.getAbsolutePath();
-        Runtime.getRuntime().exec(fullCommand);
-    }
     
     @SuppressWarnings("unchecked")
     public static <T extends Commands> T getPlatform(){
@@ -74,58 +35,32 @@ public abstract class Commands {
         else if (os.equals(OperatingSystem.UNKNOWN))    platform = new UnknownOSCommands();
     }
     
-    public static String getPathFromSelection(IWorkbenchWindow window) throws Exception{
-        return getFileFromSelection(window).getAbsolutePath();
+    public abstract OperatingSystem getOperatingSystem();
+    
+    public void openInShell(String currentPath) throws Exception {
+        String fullCommand = getOperatingSystem().getShellCommand() + currentPath;
+        Runtime.getRuntime().exec(fullCommand);
     }
     
-    public static File getFileFromSelection(IWorkbenchWindow window) throws Exception{
-    	File current = getIFileFromSelection(window).toFile();
-        return (current.isDirectory())?current:current.getParentFile();
+    public void browseInFileSystem(File current) throws Exception {
+        if (Desktop.isDesktopSupported() && Desktop.getDesktop().isSupported(Desktop.Action.OPEN)) {
+            try {
+                Desktop.getDesktop().open(current);
+            } catch (IOException e) {
+                executeFileSystemBrowserCommand(current);
+            }
+        } else {
+            executeFileSystemBrowserCommand(current);
+        }
+    }
+
+    protected void executeFileSystemBrowserCommand(File current) throws IOException {
+        String fullCommand = getOperatingSystem().getFileSystemBrowserCommand() + current.getAbsolutePath();
+        Runtime.getRuntime().exec(fullCommand);
     }
     
-//    public static IProject getMainProject(IWorkbenchWindow window) throws Exception{
-//    	IFile ifile = getIFileFromSelection(window).;
-//    	IProject activeProject = ifile.getProject();
-//    	return activeProject;
-//    }
-//    
-//    public static File getMainProjectRoot(IWorkbenchWindow window) throws Exception{    	
-//    	IProject activeProject = getMainProject( window);
-//    	IPath path = activeProject.getFullPath();
-//    	return path.toFile();
-//    }
     
-    public static boolean hasFile(ISelection selection){
-    	if(selection instanceof ITextSelection){
-    		return true;
-    	}else if(selection instanceof IStructuredSelection){
-    		IStructuredSelection sel=ResourceSelectionUtil.allResources((IStructuredSelection) selection,  IResource.FOLDER| IResource.FILE);
-    		return (sel.size()>0);
-    	}
-    	return false;
-    }
     
-    private static IPath getIFileFromSelection(IWorkbenchWindow window){
-    	IPath iPath = null;
-    	ISelection selection=window.getSelectionService().getSelection();
-    	if(selection instanceof IStructuredSelection){
-    		IStructuredSelection sel=ResourceSelectionUtil.allResources((IStructuredSelection) selection,  IResource.FOLDER| IResource.FILE);
-    		if(sel.size()>0){
-    			Object element=sel.getFirstElement();
-    			if(ResourceSelectionUtil.resourceIsType((IResource) element, IResource.FOLDER )){	
-    				IFolder folder = (IFolder) element;
-    				iPath = folder.getLocation();
-    			}else if(ResourceSelectionUtil.resourceIsType((IResource) element, IResource.FILE)){
-    				IFile file = (IFile) element;
-    				iPath = file.getLocation();
-    			}
-			}
-    	}else if(selection instanceof ITextSelection){
-    		IEditorPart  editorPart = window.getActivePage().getActiveEditor();
-    		IEditorInput input = editorPart.getEditorInput() ;
-    		iPath = ResourceUtil.getFile(input).getLocation();
-    	}
-    	return iPath;
-    }
+ 
     
 }

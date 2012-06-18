@@ -11,7 +11,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
 
-import com.sessonad.quickopener.commands.Commands;
+import com.sessonad.quickopener.PathFinder;
 
 /**
  * Our sample handler extends AbstractHandler, an IHandler base class.
@@ -32,7 +32,7 @@ public class PathHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
 		try {
-			String path=Commands.getPathFromSelection(window);
+			String path=PathFinder.getPathFromSelection(window);
             Toolkit toolkit = Toolkit.getDefaultToolkit();
             Clipboard clipboard = toolkit.getSystemClipboard();
             StringSelection strSel = new StringSelection(path);

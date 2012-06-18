@@ -9,6 +9,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
 
+import com.sessonad.quickopener.PathFinder;
 import com.sessonad.quickopener.commands.Commands;
 
 /**
@@ -30,7 +31,7 @@ public class FileSystemHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
 		try {
-        	File toOpen = Commands.getFileFromSelection(window);
+        	File toOpen = PathFinder.getFileFromSelection(window);
             Commands.getPlatform().browseInFileSystem(toOpen);
 	    } catch (Exception ex) {
 	        MessageDialog.openInformation(window.getShell(),"error", ex.getMessage());

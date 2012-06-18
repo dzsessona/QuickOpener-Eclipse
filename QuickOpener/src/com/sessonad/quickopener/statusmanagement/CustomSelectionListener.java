@@ -5,7 +5,7 @@ import org.eclipse.ui.ISelectionListener;
 import org.eclipse.ui.IWorkbenchPart;
 import org.eclipse.ui.services.ISourceProviderService;
 
-import com.sessonad.quickopener.commands.Commands;
+import com.sessonad.quickopener.PathFinder;
 
 public class CustomSelectionListener implements ISelectionListener{
 
@@ -18,7 +18,7 @@ public class CustomSelectionListener implements ISelectionListener{
 	@Override
 	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
 		PluginSourceProvider quickOpenerSourceProvider = (PluginSourceProvider) sourceProvider.getSourceProvider(PluginSourceProvider.ACTIVE_STATE);
-		quickOpenerSourceProvider.setState(Commands.hasFile(selection));	
+		quickOpenerSourceProvider.setState(PathFinder.hasFile(selection));	
 		
 	}
 

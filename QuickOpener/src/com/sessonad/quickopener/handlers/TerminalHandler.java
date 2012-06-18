@@ -6,6 +6,7 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 
+import com.sessonad.quickopener.PathFinder;
 import com.sessonad.quickopener.commands.Commands;
 
 /**
@@ -41,7 +42,7 @@ public class TerminalHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);	
 		try {
-            String path=Commands.getPathFromSelection(window);
+            String path=PathFinder.getPathFromSelection(window);
             Commands.getPlatform().openInShell(path);
         } catch (Exception ex) {
         	//ex.printStackTrace();
