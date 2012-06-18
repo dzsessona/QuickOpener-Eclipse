@@ -9,7 +9,7 @@ import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.jface.text.ITextSelection;
@@ -79,21 +79,21 @@ public abstract class Commands {
     }
     
     public static File getFileFromSelection(IWorkbenchWindow window) throws Exception{
-    	File current = getIFileFromSelection(window).getLocation().toFile();
+    	File current = getIFileFromSelection(window).toFile();
         return (current.isDirectory())?current:current.getParentFile();
     }
     
-    public static IProject getMainProject(IWorkbenchWindow window) throws Exception{
-    	IFile ifile = getIFileFromSelection(window);
-    	IProject activeProject = ifile.getProject();
-    	return activeProject;
-    }
-    
-    public static File getMainProjectRoot(IWorkbenchWindow window) throws Exception{    	
-    	IProject activeProject = getMainProject( window);
-    	IPath path = activeProject.getFullPath();
-    	return path.toFile();
-    }
+//    public static IProject getMainProject(IWorkbenchWindow window) throws Exception{
+//    	IFile ifile = getIFileFromSelection(window).;
+//    	IProject activeProject = ifile.getProject();
+//    	return activeProject;
+//    }
+//    
+//    public static File getMainProjectRoot(IWorkbenchWindow window) throws Exception{    	
+//    	IProject activeProject = getMainProject( window);
+//    	IPath path = activeProject.getFullPath();
+//    	return path.toFile();
+//    }
     
     public static boolean hasFile(ISelection selection){
     	if(selection instanceof ITextSelection){
@@ -105,29 +105,27 @@ public abstract class Commands {
     	return false;
     }
     
-    private static IFile getIFileFromSelection(IWorkbenchWindow window){
-    	IFile ifile = null;
+    private static IPath getIFileFromSelection(IWorkbenchWindow window){
+    	IPath iPath = null;
     	ISelection selection=window.getSelectionService().getSelection();
     	if(selection instanceof IStructuredSelection){
     		IStructuredSelection sel=ResourceSelectionUtil.allResources((IStructuredSelection) selection,  IResource.FOLDER| IResource.FILE);
     		if(sel.size()>0){
     			Object element=sel.getFirstElement();
-    			if(ResourceSelectionUtil.resourceIsType((IResource) element, IResource.FOLDER )){
-    				System.out.println("folder");
-    				ifile = ResourceUtil.getFile(element);
+    			if(ResourceSelectionUtil.resourceIsType((IResource) element, IResource.FOLDER )){	
+    				IFolder folder = (IFolder) element;
+    				iPath = folder.getLocation();
     			}else if(ResourceSelectionUtil.resourceIsType((IResource) element, IResource.FILE)){
-    				System.out.println("file");
-    				ifile = ResourceUtil.getFile(element);
+    				IFile file = (IFile) element;
+    				iPath = file.getLocation();
     			}
-    			
-    			ifile = ResourceUtil.getFile(element);
 			}
     	}else if(selection instanceof ITextSelection){
     		IEditorPart  editorPart = window.getActivePage().getActiveEditor();
     		IEditorInput input = editorPart.getEditorInput() ;
-    		ifile = ResourceUtil.getFile(input);
+    		iPath = ResourceUtil.getFile(input).getLocation();
     	}
-    	return ifile;
+    	return iPath;
     }
     
 }
