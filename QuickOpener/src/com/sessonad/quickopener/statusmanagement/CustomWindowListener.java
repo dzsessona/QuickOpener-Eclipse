@@ -1,4 +1,4 @@
-package com.sessonad.quickopener;
+package com.sessonad.quickopener.statusmanagement;
 
 import org.eclipse.ui.IWindowListener;
 import org.eclipse.ui.IWorkbenchWindow;

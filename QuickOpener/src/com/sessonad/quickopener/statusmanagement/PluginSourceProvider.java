@@ -1,4 +1,4 @@
-package com.sessonad.quickopener;
+package com.sessonad.quickopener.statusmanagement;
 
 import java.util.HashMap;
 import java.util.Map;
