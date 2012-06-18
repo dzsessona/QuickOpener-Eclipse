@@ -10,7 +10,7 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
 
 import com.sessonad.quickopener.PathFinder;
-import com.sessonad.quickopener.commands.Commands;
+import com.sessonad.oscommands.commands.Commands;
 
 /**
  * Our sample handler extends AbstractHandler, an IHandler base class.
