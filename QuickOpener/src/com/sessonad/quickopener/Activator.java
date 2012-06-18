@@ -11,7 +11,8 @@ public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
 	public static final String PLUGIN_ID = "QuickOpener"; //$NON-NLS-1$
-
+	//DynamicCommandStateManager dynamicStateInitializer;
+	
 	// The shared instance
 	private static Activator plugin;
 	
@@ -27,6 +28,7 @@ public class Activator extends AbstractUIPlugin {
 	 */
 	public void start(BundleContext context) throws Exception {
 		super.start(context);
+		getWorkbench().addWindowListener(new CustomWindowListener());
 		plugin = this;		
 	}
 

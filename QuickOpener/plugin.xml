@@ -23,7 +23,7 @@
       
    <!-- source providers -->
    <extension point="org.eclipse.ui.services">
-    <sourceProvider provider="com.sessonad.quickopener.QuickOpenerSourceProvider">
+    <sourceProvider provider="com.sessonad.quickopener.PluginSourceProvider">
         <variable 
         	 name="quickopener.active"
              priorityLevel="workbench">

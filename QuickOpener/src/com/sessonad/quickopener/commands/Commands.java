@@ -95,6 +95,16 @@ public abstract class Commands {
     	return path.toFile();
     }
     
+    public static boolean hasFile(ISelection selection){
+    	if(selection instanceof ITextSelection){
+    		return true;
+    	}else if(selection instanceof IStructuredSelection){
+    		IStructuredSelection sel=ResourceSelectionUtil.allResources((IStructuredSelection) selection,  IResource.FOLDER| IResource.FILE);
+    		return (sel.size()>0);
+    	}
+    	return false;
+    }
+    
     private static IFile getIFileFromSelection(IWorkbenchWindow window){
     	IFile ifile = null;
     	ISelection selection=window.getSelectionService().getSelection();

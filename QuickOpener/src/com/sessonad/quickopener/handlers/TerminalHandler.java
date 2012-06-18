@@ -18,27 +18,12 @@ public class TerminalHandler extends AbstractHandler {
 	 * The constructor.
 	 */
 	public TerminalHandler() {
-//		ISelectionListener listener = new ISelectionListener() {			
-//			@Override
-//			public void selectionChanged(IWorkbenchPart part,ISelection selection) {
-//				System.out.println("st");
-//				IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-//				ISourceProviderService service = (ISourceProviderService) window.getService(ISourceProviderService.class);
-//				QuickOpenerSourceProvider quickOpenerSourceProvider = (QuickOpenerSourceProvider) service.getSourceProvider(QuickOpenerSourceProvider.ACTIVE_STATE);
-//				quickOpenerSourceProvider.setState(selection instanceof org.eclipse.jface.text.ITextSelection);
-//			}
-//		};
-//		
-//		IWorkbenchWindow win = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
-//		win.getSelectionService().addSelectionListener(listener);
-//		System.out.println("reg");
 	}
 
 	public static String active="true";
 	
 	@Override
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
 		return super.isEnabled();
 	}
 
@@ -46,7 +31,6 @@ public class TerminalHandler extends AbstractHandler {
 
 	@Override
 	public void setEnabled(Object evaluationContext) {
-		// TODO Auto-generated method stub
 		super.setEnabled(evaluationContext);
 	}
 
@@ -55,8 +39,7 @@ public class TerminalHandler extends AbstractHandler {
 	 * from the application context.
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);		
-		//plugin.getWorkbench().addWorkbenchListener(listener);
+		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);	
 		try {
             String path=Commands.getPathFromSelection(window);
             Commands.getPlatform().openInShell(path);
