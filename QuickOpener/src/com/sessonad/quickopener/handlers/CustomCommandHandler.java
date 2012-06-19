@@ -7,6 +7,9 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.dialogs.MessageDialog;
 
+import com.sessonad.quickopener.Activator;
+import com.sessonad.quickopener.preferences.PreferenceConstants;
+
 /**
  * Our sample handler extends AbstractHandler, an IHandler base class.
  * @see org.eclipse.core.commands.IHandler
@@ -25,7 +28,8 @@ public class CustomCommandHandler extends AbstractHandler {
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		try {
-			String userCommand = JOptionPane.showInputDialog("Select location");
+			String prefCommand= Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.P_STRING);
+			String userCommand = JOptionPane.showInputDialog("Select location",prefCommand);
 			if(userCommand!=null && !userCommand.isEmpty()){
 				Runtime.getRuntime().exec(userCommand);
 			}
