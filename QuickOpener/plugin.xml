@@ -108,7 +108,7 @@
         <!-- toolbar -->
         <extension point="org.eclipse.ui.menus">      
             <menuContribution locationURI="toolbar:org.eclipse.ui.main.toolbar?after=additions">
-                <toolbar id="QuickOpener.toolbars.quickopener">
+                <toolbar id="QuickOpener.toolbars.quickopener" label="Quick Opener">
                     <command commandId="QuickOpener.commands.terminal"
                      icon="icons/terminal.png"
                      tooltip="Open in the default OS shell"
