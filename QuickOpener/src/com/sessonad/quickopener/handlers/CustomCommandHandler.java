@@ -1,24 +1,22 @@
 package com.sessonad.quickopener.handlers;
 
+import javax.swing.JOptionPane;
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.handlers.HandlerUtil;
-
-import com.sessonad.quickopener.PathFinder;
-import com.sessonad.oscommands.commands.Commands;
+import org.eclipse.jface.dialogs.MessageDialog;
 
 /**
  * Our sample handler extends AbstractHandler, an IHandler base class.
  * @see org.eclipse.core.commands.IHandler
  * @see org.eclipse.core.commands.AbstractHandler
  */
-public class TerminalHandler extends AbstractHandler {
+public class CustomCommandHandler extends AbstractHandler {
 	/**
 	 * The constructor.
 	 */
-	public TerminalHandler() {
+	public CustomCommandHandler() {
 	}
 
 	/**
@@ -26,14 +24,14 @@ public class TerminalHandler extends AbstractHandler {
 	 * from the application context.
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);	
 		try {
-            String path=PathFinder.getPathFromSelection(window);
-            Commands.getPlatform().openInShell(path);
-        } catch (Exception ex) {
-        	//ex.printStackTrace();
-        	//MessageDialog.openInformation(window.getShell(),"error", ex.getMessage());
-        }
+			String userCommand = JOptionPane.showInputDialog("Select location");
+			if(userCommand!=null && !userCommand.isEmpty()){
+				Runtime.getRuntime().exec(userCommand);
+			}
+	    } catch (Exception ex) {
+	        MessageDialog.openInformation(null,"error", ex.getMessage());
+	    }
 		return null;
 	}
 }

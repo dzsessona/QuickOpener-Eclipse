@@ -1,12 +1,14 @@
 package com.sessonad.quickopener.handlers;
 
+import java.io.File;
+
+import javax.swing.JOptionPane;
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.handlers.HandlerUtil;
+import org.eclipse.jface.dialogs.MessageDialog;
 
-import com.sessonad.quickopener.PathFinder;
 import com.sessonad.oscommands.commands.Commands;
 
 /**
@@ -14,11 +16,11 @@ import com.sessonad.oscommands.commands.Commands;
  * @see org.eclipse.core.commands.IHandler
  * @see org.eclipse.core.commands.AbstractHandler
  */
-public class TerminalHandler extends AbstractHandler {
+public class CustomFileSystemHandler extends AbstractHandler {
 	/**
 	 * The constructor.
 	 */
-	public TerminalHandler() {
+	public CustomFileSystemHandler() {
 	}
 
 	/**
@@ -26,14 +28,15 @@ public class TerminalHandler extends AbstractHandler {
 	 * from the application context.
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);	
 		try {
-            String path=PathFinder.getPathFromSelection(window);
-            Commands.getPlatform().openInShell(path);
-        } catch (Exception ex) {
-        	//ex.printStackTrace();
-        	//MessageDialog.openInformation(window.getShell(),"error", ex.getMessage());
-        }
+			String userpath = JOptionPane.showInputDialog("Select location");
+			if(userpath!=null && !userpath.isEmpty()){
+				File toOpen = new File(userpath);
+				Commands.getPlatform().browseInFileSystem(toOpen);
+			}
+	    } catch (Exception ex) {
+	        MessageDialog.openInformation(null,"error", ex.getMessage());
+	    }
 		return null;
 	}
 }

@@ -1,12 +1,11 @@
 package com.sessonad.quickopener.handlers;
 
+import javax.swing.JOptionPane;
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.handlers.HandlerUtil;
 
-import com.sessonad.quickopener.PathFinder;
 import com.sessonad.oscommands.commands.Commands;
 
 /**
@@ -14,22 +13,24 @@ import com.sessonad.oscommands.commands.Commands;
  * @see org.eclipse.core.commands.IHandler
  * @see org.eclipse.core.commands.AbstractHandler
  */
-public class TerminalHandler extends AbstractHandler {
+public class CustomTerminalHandler extends AbstractHandler {
 	/**
 	 * The constructor.
 	 */
-	public TerminalHandler() {
+	public CustomTerminalHandler() {
 	}
+
 
 	/**
 	 * the command has been executed, so extract extract the needed information
 	 * from the application context.
 	 */
-	public Object execute(ExecutionEvent event) throws ExecutionException {
-		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);	
+	public Object execute(ExecutionEvent event) throws ExecutionException {			
 		try {
-            String path=PathFinder.getPathFromSelection(window);
-            Commands.getPlatform().openInShell(path);
+			String userpath = JOptionPane.showInputDialog("Select location");
+			if(userpath!=null && !userpath.isEmpty()){
+				Commands.getPlatform().openInShell(userpath);
+			}
         } catch (Exception ex) {
         	//ex.printStackTrace();
         	//MessageDialog.openInformation(window.getShell(),"error", ex.getMessage());

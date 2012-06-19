@@ -4,21 +4,13 @@
 
         <!-- declaration of category and commands -->
         <extension point="org.eclipse.ui.commands">
-            <category name="QuickOpener"
-                id="QuickOpener.commands.category">
-            </category>
-            <command  name="Terminal"
-                categoryId="QuickOpener.commands.category"
-                id="QuickOpener.commands.terminal">
-            </command>
-            <command  name="FileSystem"
-                categoryId="QuickOpener.commands.category"
-                id="QuickOpener.commands.filesystem">
-            </command>
-            <command  name="Path"
-                categoryId="QuickOpener.commands.category"
-                id="QuickOpener.commands.path">
-            </command>
+            <category name="QuickOpener" 		id="QuickOpener.commands.category"></category>
+            <command  name="Terminal" 			categoryId="QuickOpener.commands.category" id="QuickOpener.commands.terminal"></command>
+            <command  name="FileSystem" 		categoryId="QuickOpener.commands.category" id="QuickOpener.commands.filesystem"></command>
+            <command  name="Path"				categoryId="QuickOpener.commands.category" id="QuickOpener.commands.path"></command>
+            <command  name="CustomTerminal" 	categoryId="QuickOpener.commands.category" id="QuickOpener.commands.customterminal"></command>
+            <command  name="CustomFileSystem" 	categoryId="QuickOpener.commands.category" id="QuickOpener.commands.customfilesystem"></command>
+            <command  name="CustomCommand"	 	categoryId="QuickOpener.commands.category" id="QuickOpener.commands.customcommand"></command>
         </extension>
       
         <!-- source providers -->
@@ -108,6 +100,9 @@
                     </and>      		
                 </activeWhen>
             </handler>
+            <handler commandId="QuickOpener.commands.customfilesystem"  class="com.sessonad.quickopener.handlers.CustomFileSystemHandler"></handler>
+            <handler commandId="QuickOpener.commands.customterminal" 	class="com.sessonad.quickopener.handlers.CustomTerminalHandler"></handler>
+            <handler commandId="QuickOpener.commands.customcommand" 	class="com.sessonad.quickopener.handlers.CustomCommandHandler"></handler>
         </extension>  
     
         <!-- toolbar -->
@@ -129,7 +124,23 @@
                      tooltip="Copy the path to the clipboard"
                      id="QuickOpener.toolbars.quickopener.path">
                     </command>
+                    <command commandId="QuickOpener.commands.customcommand"
+                     icon="icons/path.png"
+                     tooltip="Copy the path to the clipboard"
+                     id="QuickOpener.toolbars.quickopener.customMenu"
+                     style="pulldown">
+                    </command>
                 </toolbar>
             </menuContribution>
         </extension>
+        
+        <extension point="org.eclipse.ui.menus">      
+            <menuContribution locationURI="menu:QuickOpener.toolbars.quickopener.customMenu">
+            	<command commandId="QuickOpener.commands.customcommand" icon="icons/path.png" label="Run custom command..." style="push"></command>
+            	<separator name="sep" visible="true"></separator>
+            	<command commandId="QuickOpener.commands.customterminal"   icon="icons/path.png" label="Open shell in..." style="push"></command>
+            	<command commandId="QuickOpener.commands.customfilesystem" icon="icons/path.png" label="Open filesystem in..." style="push"></command>
+            </menuContribution>
+        </extension>
+        
     </plugin>
