@@ -134,6 +134,7 @@
             </menuContribution>
         </extension>
         
+        <!-- custom commands menu -->
         <extension point="org.eclipse.ui.menus">      
             <menuContribution locationURI="menu:QuickOpener.toolbars.quickopener.customMenu">
             	<command commandId="QuickOpener.commands.customcommand" icon="icons/path.png" label="Run custom command..." style="push"></command>
@@ -141,6 +142,18 @@
             	<command commandId="QuickOpener.commands.customterminal"   icon="icons/path.png" label="Open shell in..." style="push"></command>
             	<command commandId="QuickOpener.commands.customfilesystem" icon="icons/path.png" label="Open filesystem in..." style="push"></command>
             </menuContribution>
+        </extension>
+        
+        <!-- preferences -->
+        <extension point="org.eclipse.ui.preferencePages">
+           <page class="com.sessonad.quickopener.preferences.PreferencePage"
+                 id="com.sessonad.quickopener.preferences.PreferencePage"
+                 name="Quick Opener">
+           </page>
+        </extension>
+        <extension point="org.eclipse.core.runtime.preferences">
+           <initializer class="com.sessonad.quickopener.preferences.PreferenceInitializer">
+           </initializer>
         </extension>
         
     </plugin>
