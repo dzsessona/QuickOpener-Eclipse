@@ -22,6 +22,7 @@ import javax.swing.JScrollPane;
 
 import org.eclipse.ui.IWorkbenchWindow;
 
+import com.sessonad.oscommands.commands.Commands;
 import com.sessonad.quickopener.PathFinder;
 
 import java.awt.event.ActionListener;
@@ -34,10 +35,7 @@ public class DialogueCustomTerminal extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField cmdText;
-	private JTable table;
-	public static final int RET_CANCEL = 0;
-    public static final int RET_OK = 1;
-    private int returnStatus = RET_CANCEL;
+	private JTable table;	
     public static final int CHARSNUMBER = 80;
     private IWorkbenchWindow window;
     
@@ -93,12 +91,9 @@ public class DialogueCustomTerminal extends JDialog {
     /**
      * @return the return status of this dialog - one of RET_OK or RET_CANCEL
      */
-    public int getReturnStatus() {
-        return returnStatus;
-    }
     
-    private void doClose(int retStatus) {
-        returnStatus = retStatus;
+    
+    private void doClose() {        
         setVisible(false);
         dispose();
     }
@@ -285,7 +280,12 @@ public class DialogueCustomTerminal extends JDialog {
 					public void actionPerformed(ActionEvent arg0) {
 						File file= new File(cmdText.getText());
 				        if(file.exists()&& file.isDirectory()){
-				            doClose(RET_OK);
+				        	try {
+								Commands.getPlatform().openInShell(cmdText.getText());
+							} catch (Exception e) {								
+								e.printStackTrace();
+							}
+				        	doClose();
 				        }else{
 				        	
 				        }
@@ -300,7 +300,7 @@ public class DialogueCustomTerminal extends JDialog {
 				cancelButton.setFocusPainted(false);
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						doClose(RET_CANCEL);
+						doClose();
 					}
 				});
 				cancelButton.setActionCommand("Cancel");

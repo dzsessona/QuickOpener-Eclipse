@@ -38,12 +38,7 @@ public class CustomTerminalHandler extends AbstractHandler {
             final int x = (screenSize.width - dialogue.getWidth()) / 2;
             final int y = (screenSize.height - dialogue.getHeight()) / 2;
             dialogue.setLocation(x, y);
-            dialogue.setVisible(true);
-            
-            String userCommand = (dialogue.getReturnStatus()==DialogueCustomTerminal.RET_OK)?dialogue.getCommand():null;
-            if (userCommand != null) {
-            	Commands.getPlatform().openInShell(userCommand);
-            }
+            dialogue.setVisible(true);           
             
         } catch (Exception ex) {
         	ex.printStackTrace();
