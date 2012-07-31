@@ -29,7 +29,7 @@ import java.awt.event.ActionEvent;
 import java.io.File;
 import java.awt.Toolkit;
 
-public class DialogueCommands extends JDialog {
+public class DialogueCustomTerminal extends JDialog {
 
 	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
@@ -61,7 +61,7 @@ public class DialogueCommands extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			DialogueCommands dialog = new DialogueCommands(null);
+			DialogueCustomTerminal dialog = new DialogueCustomTerminal(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -106,9 +106,9 @@ public class DialogueCommands extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public DialogueCommands(IWorkbenchWindow window) {
+	public DialogueCustomTerminal(IWorkbenchWindow window) {
 		setTitle("Open shell in...");
-		setIconImage(Toolkit.getDefaultToolkit().getImage(DialogueCommands.class.getResource("/com/sessonad/quickopener/icons/terminal-cu.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(DialogueCustomTerminal.class.getResource("/com/sessonad/quickopener/icons/terminal-cu.png")));
 		this.window=window;
 		setBounds(100, 100, 497, 441);
 		getContentPane().setLayout(new BorderLayout());
@@ -268,7 +268,7 @@ public class DialogueCommands extends JDialog {
 		contentPanel.add(lblWorksp);
 		
 		JLabel lblIcon = new JLabel(" ");
-		lblIcon.setIcon(new ImageIcon(DialogueCommands.class.getResource("/com/sessonad/quickopener/icons/terminal48-cu2.png")));
+		lblIcon.setIcon(new ImageIcon(DialogueCustomTerminal.class.getResource("/com/sessonad/quickopener/icons/terminal48-cu2.png")));
 		lblIcon.setBounds(20, 11, 61, 60);
 		contentPanel.add(lblIcon);
 		table.getColumnModel().getColumn(0).setPreferredWidth(150);

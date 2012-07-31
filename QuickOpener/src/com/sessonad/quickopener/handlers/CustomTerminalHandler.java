@@ -33,14 +33,14 @@ public class CustomTerminalHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {			
 		try {
 			IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
-			DialogueCommands dialogue = new DialogueCommands(window);
+			DialogueCustomTerminal dialogue = new DialogueCustomTerminal(window);
 			final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             final int x = (screenSize.width - dialogue.getWidth()) / 2;
             final int y = (screenSize.height - dialogue.getHeight()) / 2;
             dialogue.setLocation(x, y);
             dialogue.setVisible(true);
             
-            String userCommand = (dialogue.getReturnStatus()==DialogueCommands.RET_OK)?dialogue.getCommand():null;
+            String userCommand = (dialogue.getReturnStatus()==DialogueCustomTerminal.RET_OK)?dialogue.getCommand():null;
             if (userCommand != null) {
             	Commands.getPlatform().openInShell(userCommand);
             }
