@@ -167,16 +167,7 @@ public class DialogueCustomTerminal extends JDialog {
 		lblMainProj.setEnabled(false);
 		lblMainProj.setBounds(101, 101, 370, 14);
 		contentPanel.add(lblMainProj);
-		
-		
-        
-        
-//        mynetbeansPath=PathFinder.getMyNetbeansConfPath();
-//        if(mynetbeansPath!=null){
-//            jLabel7.setEnabled(true);
-//            jLabel7.setText(getPathLongerThan(mynetbeansPath));
-//        }
-		
+
 		JLabel lblFavo = new JLabel("Favorite places:");
 		lblFavo.setForeground(Color.GRAY);
 		lblFavo.setFont(new Font("Arial", Font.BOLD, 11));
@@ -291,6 +282,11 @@ public class DialogueCustomTerminal extends JDialog {
 				        }
 					}
 				});
+				
+				JLabel label_1 = new JLabel("");
+				label_1.setToolTipText("<html><span color=\"blue\">Click on any path to set the input box.</span><br/>\r\n<br/>\r\nYou can customize the your preferred places in:<br/>\r\n<span color=\"blue\">Window > Preferences >  QuickOpener\r\n</html>");
+				label_1.setIcon(new ImageIcon(DialogueCustomTerminal.class.getResource("/com/sessonad/quickopener/icons/help.png")));
+				buttonPane.add(label_1);
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
