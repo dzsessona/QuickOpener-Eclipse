@@ -1,4 +1,4 @@
-package com.sessonad.quickopener.handlers;
+package com.sessonad.quickopener.dialogues;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -26,7 +26,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import com.sessonad.oscommands.commands.Commands;
 import com.sessonad.quickopener.PathFinder;
 
-public class DialogueCustomFileSystem extends JDialog {
+public class DialogueCustomFileChooser extends JDialog {
 
 
 	private static final long serialVersionUID = 1L;
@@ -88,7 +88,7 @@ public class DialogueCustomFileSystem extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			DialogueCustomFileSystem dialog = new DialogueCustomFileSystem(null);
+			DialogueCustomFileChooser dialog = new DialogueCustomFileChooser(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -99,8 +99,8 @@ public class DialogueCustomFileSystem extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public DialogueCustomFileSystem(IWorkbenchWindow window) {
-		setTitle("Open file system in...");
+	public DialogueCustomFileChooser(IWorkbenchWindow window) {
+		setTitle("Choose file...");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(DialogueCustomFileSystem.class.getResource("/com/sessonad/quickopener/icons/folder-documents-icon-cu.png")));
 		this.window=window;
 		setBounds(100, 100, 497, 441);
@@ -109,11 +109,12 @@ public class DialogueCustomFileSystem extends JDialog {
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-		JLabel lblOopenShellIn = new JLabel("Open shell in:");
+		JLabel lblOopenShellIn = new JLabel("Selected file:");
 		lblOopenShellIn.setBounds(91, 20, 80, 14);
 		contentPanel.add(lblOopenShellIn);
 		
 		cmdText = new JTextField();
+		cmdText.setEditable(false);
 		cmdText.setBounds(91, 39, 357, 20);
 		contentPanel.add(cmdText);
 		cmdText.setColumns(10);
@@ -253,7 +254,7 @@ public class DialogueCustomFileSystem extends JDialog {
 		contentPanel.add(lblWorksp);
 		
 		JLabel lblIcon = new JLabel(" ");
-		lblIcon.setIcon(new ImageIcon(DialogueCustomFileSystem.class.getResource("/com/sessonad/quickopener/icons/folder-documents-icon48-cu.png")));
+		lblIcon.setIcon(new ImageIcon(DialogueCustomFileChooser.class.getResource("/com/sessonad/quickopener/icons/folder-documents-icon48.png")));
 		lblIcon.setBounds(20, 11, 61, 60);
 		contentPanel.add(lblIcon);
 		table.getColumnModel().getColumn(0).setPreferredWidth(150);
@@ -284,7 +285,7 @@ public class DialogueCustomFileSystem extends JDialog {
 				
 				JLabel label_1 = new JLabel("");
 				label_1.setToolTipText("<html><span color=\"blue\">Click on any path to set the input box.</span><br/>\r\n<br/>\r\nYou can customize the your preferred places in:<br/>\r\n<span color=\"blue\">Window > Preferences >  QuickOpener\r\n</html>");
-				label_1.setIcon(new ImageIcon(DialogueCustomFileSystem.class.getResource("/com/sessonad/quickopener/icons/help.png")));
+				label_1.setIcon(new ImageIcon(DialogueCustomFileChooser.class.getResource("/com/sessonad/quickopener/icons/help.png")));
 				buttonPane.add(label_1);
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);

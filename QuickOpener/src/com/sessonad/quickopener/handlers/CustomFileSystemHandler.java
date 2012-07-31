@@ -14,6 +14,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import com.sessonad.oscommands.commands.Commands;
+import com.sessonad.quickopener.dialogues.DialogueCustomFileSystem;
 
 /**
  * Our sample handler extends AbstractHandler, an IHandler base class.

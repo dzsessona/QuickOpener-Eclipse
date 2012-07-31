@@ -1,4 +1,4 @@
-package com.sessonad.quickopener.handlers;
+package com.sessonad.quickopener.dialogues;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
