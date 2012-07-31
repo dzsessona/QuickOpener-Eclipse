@@ -1,13 +1,19 @@
 package com.sessonad.quickopener.handlers;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 import javax.swing.JOptionPane;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.handlers.HandlerUtil;
 
 import com.sessonad.quickopener.Activator;
+import com.sessonad.quickopener.dialogues.DialogueCustomFileSystem;
 import com.sessonad.quickopener.preferences.PreferenceConstants;
 
 /**
@@ -28,11 +34,13 @@ public class CustomCommandHandler extends AbstractHandler {
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		try {
-			String prefCommand= Activator.getDefault().getPreferenceStore().getString(PreferenceConstants.P_STRING);
-			String userCommand = JOptionPane.showInputDialog("Select location",prefCommand);
-			if(userCommand!=null && !userCommand.isEmpty()){
-				Runtime.getRuntime().exec(userCommand);
-			}
+			IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
+			DialogueCustomFileSystem dialogue = new DialogueCustomFileSystem(window);
+			final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            final int x = (screenSize.width - dialogue.getWidth()) / 2;
+            final int y = (screenSize.height - dialogue.getHeight()) / 2;
+            dialogue.setLocation(x, y);
+            dialogue.setVisible(true); 
 	    } catch (Exception ex) {
 	        MessageDialog.openInformation(null,"error", ex.getMessage());
 	    }

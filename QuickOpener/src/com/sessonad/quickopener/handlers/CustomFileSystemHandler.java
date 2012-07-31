@@ -14,6 +14,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
 
 import com.sessonad.oscommands.commands.Commands;
+import com.sessonad.quickopener.dialogues.DialogueCustomCommands;
 import com.sessonad.quickopener.dialogues.DialogueCustomFileSystem;
 
 /**
@@ -35,7 +36,7 @@ public class CustomFileSystemHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		try {
 			IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
-			DialogueCustomFileSystem dialogue = new DialogueCustomFileSystem(window);
+			DialogueCustomCommands dialogue = new DialogueCustomCommands(window);
 			final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             final int x = (screenSize.width - dialogue.getWidth()) / 2;
             final int y = (screenSize.height - dialogue.getHeight()) / 2;
