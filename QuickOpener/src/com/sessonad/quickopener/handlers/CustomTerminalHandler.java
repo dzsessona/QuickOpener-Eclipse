@@ -1,5 +1,8 @@
 package com.sessonad.quickopener.handlers;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
+
 import javax.swing.JOptionPane;
 
 import org.eclipse.core.commands.AbstractHandler;
@@ -27,10 +30,12 @@ public class CustomTerminalHandler extends AbstractHandler {
 	 */
 	public Object execute(ExecutionEvent event) throws ExecutionException {			
 		try {
-			String userpath = JOptionPane.showInputDialog("Select location");
-			if(userpath!=null && !userpath.isEmpty()){
-				Commands.getPlatform().openInShell(userpath);
-			}
+			DialogueCommands dialogue = new DialogueCommands();
+			final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            final int x = (screenSize.width - dialogue.getWidth()) / 2;
+            final int y = (screenSize.height - dialogue.getHeight()) / 2;
+            dialogue.setLocation(x, y);
+            dialogue.setVisible(true);
         } catch (Exception ex) {
         	//ex.printStackTrace();
         	//MessageDialog.openInformation(window.getShell(),"error", ex.getMessage());
