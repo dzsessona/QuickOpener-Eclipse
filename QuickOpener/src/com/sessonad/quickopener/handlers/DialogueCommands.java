@@ -20,12 +20,30 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JScrollPane;
 
+import org.eclipse.ui.IWorkbenchWindow;
+
+import com.sessonad.quickopener.PathFinder;
+
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.io.File;
+import java.awt.Toolkit;
+
 public class DialogueCommands extends JDialog {
 
+	private static final long serialVersionUID = 1L;
 	private final JPanel contentPanel = new JPanel();
 	private JTextField cmdText;
 	private JTable table;
-
+	public static final int RET_CANCEL = 0;
+    public static final int RET_OK = 1;
+    private int returnStatus = RET_CANCEL;
+    public static final int CHARSNUMBER = 80;
+    private IWorkbenchWindow window;
+    
+    private String selectioPath;
+    private String workbenchPath;
+    private String mainProjectPath;
 	
 	static {
 		try {
@@ -43,7 +61,7 @@ public class DialogueCommands extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			DialogueCommands dialog = new DialogueCommands();
+			DialogueCommands dialog = new DialogueCommands(null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -51,37 +69,71 @@ public class DialogueCommands extends JDialog {
 		}
 	}
 
+	private String getPathLongerThan(String path){
+        if(path.length()>=CHARSNUMBER){            
+            String intpath = path.substring(path.length()-CHARSNUMBER);
+            int idx = intpath.indexOf("\\");
+            if(idx!=-1){
+                return "..." + intpath.substring(idx);
+            }
+            int adx = intpath.indexOf("/");
+            if(adx!=-1){
+                return "..." + intpath.substring(adx);
+            }
+            return "..." + intpath;
+        }else{
+            return path;
+        }
+    }
+	
+	public String getCommand(){
+        return cmdText.getText();
+    }
+    
+    /**
+     * @return the return status of this dialog - one of RET_OK or RET_CANCEL
+     */
+    public int getReturnStatus() {
+        return returnStatus;
+    }
+    
+    private void doClose(int retStatus) {
+        returnStatus = retStatus;
+        setVisible(false);
+        dispose();
+    }
+    
 	/**
 	 * Create the dialog.
 	 */
-	public DialogueCommands() {
+	public DialogueCommands(IWorkbenchWindow window) {
+		setTitle("Open shell in...");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(DialogueCommands.class.getResource("/com/sessonad/quickopener/icons/terminal-cu.png")));
+		this.window=window;
 		setBounds(100, 100, 497, 441);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		contentPanel.setLayout(null);
 		
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon("C:\\Users\\sessonad\\git\\QuickOpener-Eclipse\\QuickOpener\\icons\\terminal48-cu2.png"));
-		lblNewLabel.setBounds(21, 11, 60, 48);
-		contentPanel.add(lblNewLabel);
-		
 		JLabel lblOopenShellIn = new JLabel("Open shell in:");
-		lblOopenShellIn.setBounds(91, 14, 80, 14);
+		lblOopenShellIn.setBounds(91, 20, 80, 14);
 		contentPanel.add(lblOopenShellIn);
 		
 		cmdText = new JTextField();
-		cmdText.setBounds(91, 39, 380, 20);
+		cmdText.setBounds(91, 39, 357, 20);
 		contentPanel.add(cmdText);
 		cmdText.setColumns(10);
 		
 		JLabel lblSelectedFile = new JLabel("Selected file:");
+		lblSelectedFile.setFocusable(false);
 		lblSelectedFile.setForeground(Color.GRAY);
 		lblSelectedFile.setFont(new Font("Arial", Font.BOLD, 11));
 		lblSelectedFile.setBounds(21, 82, 71, 14);
 		contentPanel.add(lblSelectedFile);
 		
 		JLabel lblNewLabel_1 = new JLabel("Main Project:");
+		lblNewLabel_1.setFocusable(false);
 		lblNewLabel_1.setForeground(Color.GRAY);
 		lblNewLabel_1.setFont(new Font("Arial", Font.BOLD, 11));
 		lblNewLabel_1.setBounds(21, 101, 71, 14);
@@ -91,15 +143,44 @@ public class DialogueCommands extends JDialog {
 		label.setBounds(10, 132, 46, 14);
 		contentPanel.add(label);
 		
-		JLabel lblNewLabel_2 = new JLabel("(not available)");
-		lblNewLabel_2.setEnabled(false);
-		lblNewLabel_2.setBounds(101, 82, 370, 14);
-		contentPanel.add(lblNewLabel_2);
+		final JLabel lblSelFile = new JLabel("(not available)");
+		lblSelFile.setFocusable(false);
+		lblSelFile.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				if(lblSelFile.isEnabled()){
+		            cmdText.setText(selectioPath);
+		        }
+			}
+		});
+		lblSelFile.setForeground(Color.BLUE);
+		lblSelFile.setEnabled(false);
+		lblSelFile.setBounds(101, 82, 370, 14);
+		contentPanel.add(lblSelFile);
 		
-		JLabel lblnotAvailable = new JLabel("(not available)");
-		lblnotAvailable.setEnabled(false);
-		lblnotAvailable.setBounds(101, 101, 370, 14);
-		contentPanel.add(lblnotAvailable);
+		final JLabel lblMainProj = new JLabel("(not available)");
+		lblMainProj.setFocusable(false);
+		lblMainProj.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(lblMainProj.isEnabled()){
+		            cmdText.setText(mainProjectPath);
+		        }
+			}
+		});
+		lblMainProj.setForeground(Color.BLUE);
+		lblMainProj.setEnabled(false);
+		lblMainProj.setBounds(101, 101, 370, 14);
+		contentPanel.add(lblMainProj);
+		
+		
+        
+        
+//        mynetbeansPath=PathFinder.getMyNetbeansConfPath();
+//        if(mynetbeansPath!=null){
+//            jLabel7.setEnabled(true);
+//            jLabel7.setText(getPathLongerThan(mynetbeansPath));
+//        }
 		
 		JLabel lblFavo = new JLabel("Favorite places:");
 		lblFavo.setForeground(Color.GRAY);
@@ -112,6 +193,7 @@ public class DialogueCommands extends JDialog {
 		contentPanel.add(scrollPane);
 		
 		table = new JTable();
+		table.setFocusable(false);
 		table.setFillsViewportHeight(true);
 		scrollPane.setViewportView(table);
 		table.setAutoCreateRowSorter(true);
@@ -144,15 +226,51 @@ public class DialogueCommands extends JDialog {
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		
 		JLabel lblWorkspace = new JLabel("Workspace:");
+		lblWorkspace.setFocusable(false);
 		lblWorkspace.setForeground(Color.GRAY);
 		lblWorkspace.setFont(new Font("Arial", Font.BOLD, 11));
 		lblWorkspace.setBounds(21, 120, 71, 14);
 		contentPanel.add(lblWorkspace);
 		
-		JLabel lblNewLabel_3 = new JLabel("(not available)");
-		lblNewLabel_3.setEnabled(false);
-		lblNewLabel_3.setBounds(101, 120, 370, 14);
-		contentPanel.add(lblNewLabel_3);
+		final JLabel lblWorksp = new JLabel("(not available)");
+		lblWorksp.setFocusable(false);
+		lblWorksp.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(lblWorksp.isEnabled()){
+		            cmdText.setText(workbenchPath);
+		        }
+			}
+		});
+		lblWorksp.setForeground(Color.BLUE);
+		lblWorksp.setEnabled(false);
+		lblWorksp.setBounds(101, 120, 370, 14);
+		
+		
+		try {
+			selectioPath=PathFinder.getPathFromSelection(window);
+			if(selectioPath!=null){
+				lblSelFile.setEnabled(true);
+				lblSelFile.setText(getPathLongerThan(selectioPath));
+	        }
+			workbenchPath=PathFinder.getPathFromWorkBench(window);
+			if(workbenchPath!=null){
+				lblWorksp.setEnabled(true);
+				lblWorksp.setText(getPathLongerThan(workbenchPath));
+	        }
+			mainProjectPath=PathFinder.getPathFromProject(window);
+			if(mainProjectPath!=null){
+				lblMainProj.setEnabled(true);
+				lblMainProj.setText(getPathLongerThan(mainProjectPath));
+	        }
+		} catch (Exception e1) {}
+		
+		contentPanel.add(lblWorksp);
+		
+		JLabel lblIcon = new JLabel(" ");
+		lblIcon.setIcon(new ImageIcon(DialogueCommands.class.getResource("/com/sessonad/quickopener/icons/terminal48-cu2.png")));
+		lblIcon.setBounds(20, 11, 61, 60);
+		contentPanel.add(lblIcon);
 		table.getColumnModel().getColumn(0).setPreferredWidth(150);
 		table.getColumnModel().getColumn(0).setMaxWidth(400);
 		table.getColumnModel().getColumn(0).setMinWidth(100);		
@@ -162,12 +280,29 @@ public class DialogueCommands extends JDialog {
 			getContentPane().add(buttonPane, BorderLayout.SOUTH);
 			{
 				JButton okButton = new JButton("OK");
+				okButton.setFocusPainted(false);
+				okButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						File file= new File(cmdText.getText());
+				        if(file.exists()&& file.isDirectory()){
+				            doClose(RET_OK);
+				        }else{
+				        	
+				        }
+					}
+				});
 				okButton.setActionCommand("OK");
 				buttonPane.add(okButton);
 				getRootPane().setDefaultButton(okButton);
 			}
 			{
 				JButton cancelButton = new JButton("Cancel");
+				cancelButton.setFocusPainted(false);
+				cancelButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						doClose(RET_CANCEL);
+					}
+				});
 				cancelButton.setActionCommand("Cancel");
 				buttonPane.add(cancelButton);
 			}
