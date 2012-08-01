@@ -11,6 +11,7 @@
             <command  name="CustomTerminal" 	categoryId="QuickOpener.commands.category" id="QuickOpener.commands.customterminal"></command>
             <command  name="CustomFileSystem" 	categoryId="QuickOpener.commands.category" id="QuickOpener.commands.customfilesystem"></command>
             <command  name="CustomCommand"	 	categoryId="QuickOpener.commands.category" id="QuickOpener.commands.customcommand"></command>
+            <command  name="Settings"	 		categoryId="QuickOpener.commands.category" id="QuickOpener.commands.settings"></command>
         </extension>
       
         <!-- source providers -->
@@ -103,6 +104,7 @@
             <handler commandId="QuickOpener.commands.customfilesystem"  class="com.sessonad.quickopener.handlers.CustomFileSystemHandler"></handler>
             <handler commandId="QuickOpener.commands.customterminal" 	class="com.sessonad.quickopener.handlers.CustomTerminalHandler"></handler>
             <handler commandId="QuickOpener.commands.customcommand" 	class="com.sessonad.quickopener.handlers.CustomCommandHandler"></handler>
+            <handler commandId="QuickOpener.commands.settings" 			class="com.sessonad.quickopener.handlers.PreferencesHandler"></handler>
         </extension>  
     
         <!-- toolbar -->
@@ -141,11 +143,13 @@
             	<separator name="sep" visible="true"></separator>
             	<command commandId="QuickOpener.commands.customterminal"   icon="src/com/sessonad/quickopener/icons/terminal-cu.png" label="Open shell in..." style="push"></command>
             	<command commandId="QuickOpener.commands.customfilesystem" icon="src/com/sessonad/quickopener/icons/folder-documents-icon-cu.png" label="Open filesystem in..." style="push"></command>
+            	<separator name="sepa" visible="true"></separator>
+            	<command commandId="QuickOpener.commands.settings" label="Settings..." style="push"></command>
             </menuContribution>
         </extension>
         
         <!-- preferences -->
-        <extension point="org.eclipse.ui.preferencePages">           
+        <!--extension point="org.eclipse.ui.preferencePages">           
            <page class="com.sessonad.quickopener.preferences.MainPreferencePage"
                  id="com.sessonad.quickopener.preferences.MainPreferencePage"
                  name="Quick Opener">
@@ -164,5 +168,5 @@
         <extension point="org.eclipse.core.runtime.preferences">
            <initializer class="com.sessonad.quickopener.preferences.PreferenceInitializer">
            </initializer>           
-        </extension>        
+        </extension-->        
     </plugin>
