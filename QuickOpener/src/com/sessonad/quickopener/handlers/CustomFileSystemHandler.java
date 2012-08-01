@@ -2,19 +2,11 @@ package com.sessonad.quickopener.handlers;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-import java.io.File;
-
-import javax.swing.JOptionPane;
-
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
-
-import com.sessonad.oscommands.commands.Commands;
-import com.sessonad.quickopener.dialogues.DialogueCustomCommands;
 import com.sessonad.quickopener.dialogues.DialogueCustomFileSystem;
 
 /**
@@ -36,7 +28,7 @@ public class CustomFileSystemHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		try {
 			IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
-			DialogueCustomFileSystem dialogue = new DialogueCustomFileSystem(window);			
+			DialogueCustomFileSystem dialogue = new DialogueCustomFileSystem(null,true,window);			
 			final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             final int x = (screenSize.width - dialogue.getWidth()) / 2;
             final int y = (screenSize.height - dialogue.getHeight()) / 2;

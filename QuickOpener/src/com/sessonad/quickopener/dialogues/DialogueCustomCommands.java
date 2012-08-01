@@ -28,6 +28,7 @@ import javax.swing.JScrollPane;
 import org.eclipse.ui.IWorkbenchWindow;
 import com.sessonad.oscommands.commands.Commands;
 import java.awt.Component;
+import javax.swing.JCheckBox;
 
 public class DialogueCustomCommands extends JDialog {
 
@@ -56,6 +57,11 @@ public class DialogueCustomCommands extends JDialog {
     private JButton p4btn;
     private JButton p5btn;
     private JButton p6btn;
+    private JCheckBox addCurrFolderChk;
+    private JCheckBox addCurFilechk;
+    private JLabel lblOSPrefix;
+    private JCheckBox addPrefixChk;
+    private final String cmdos=Commands.getPlatform().getOperatingSystem().getShellPrefix();
     
 
 	
@@ -107,7 +113,7 @@ public class DialogueCustomCommands extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			DialogueCustomCommands dialog = new DialogueCustomCommands(null);
+			DialogueCustomCommands dialog = new DialogueCustomCommands(null,false,null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -118,11 +124,12 @@ public class DialogueCustomCommands extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public DialogueCustomCommands(final IWorkbenchWindow window) {
+	public DialogueCustomCommands(java.awt.Frame parent, boolean modal,final IWorkbenchWindow window) {
+		super(parent,modal);
 		setTitle("Run command...");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(DialogueCustomCommands.class.getResource("/com/sessonad/quickopener/icons/run.png")));
 		this.window=window;
-		setBounds(100, 100, 574, 455);
+		setBounds(100, 100, 644, 457);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -190,7 +197,7 @@ public class DialogueCustomCommands extends JDialog {
 		));
 		table.setBackground(UIManager.getColor("Button.background"));
 		
-		table.setModel(new PropertyTableModel("folder"));
+		table.setModel(new PropertyTableModel("commands"));
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		
 		
@@ -226,14 +233,7 @@ public class DialogueCustomCommands extends JDialog {
 		p1btn.setFocusPainted(false);
 		p1btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				DialogueCustomFileChooser dialogue = new DialogueCustomFileChooser(window);
-		        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		        final int x = (screenSize.width - dialogue.getWidth()) / 2;
-		        final int y = (screenSize.height - dialogue.getHeight()) / 2;
-		        dialogue.setLocation(x, y);
-		        dialogue.setVisible(true);
-		        String userCommand = (DialogueCustomFileChooser.getCommand().isEmpty())?null:DialogueCustomFileChooser.getCommand();
-		        p1text.setText(userCommand);
+				fileParamButtonActionPerformed(arg0, p1text);
 			}
 		});
 		p1btn.setFont(new Font("Tahoma", Font.ITALIC, 11));
@@ -256,14 +256,7 @@ public class DialogueCustomCommands extends JDialog {
 		p2btn = new JButton("file");
 		p2btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				DialogueCustomFileChooser dialogue = new DialogueCustomFileChooser(window);
-		        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		        final int x = (screenSize.width - dialogue.getWidth()) / 2;
-		        final int y = (screenSize.height - dialogue.getHeight()) / 2;
-		        dialogue.setLocation(x, y);
-		        dialogue.setVisible(true);
-		        String userCommand = (DialogueCustomFileChooser.getCommand().isEmpty())?null:DialogueCustomFileChooser.getCommand();
-		        p2text.setText(userCommand);
+				fileParamButtonActionPerformed(arg0, p2text);
 			}
 		});
 		p2btn.setEnabled(false);
@@ -290,14 +283,7 @@ public class DialogueCustomCommands extends JDialog {
 		p3btn = new JButton("file");
 		p3btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DialogueCustomFileChooser dialogue = new DialogueCustomFileChooser(window);
-		        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		        final int x = (screenSize.width - dialogue.getWidth()) / 2;
-		        final int y = (screenSize.height - dialogue.getHeight()) / 2;
-		        dialogue.setLocation(x, y);
-		        dialogue.setVisible(true);
-		        String userCommand = (DialogueCustomFileChooser.getCommand().isEmpty())?null:DialogueCustomFileChooser.getCommand();
-		        p3text.setText(userCommand);
+				fileParamButtonActionPerformed(e, p3text);
 			}
 		});
 		p3btn.setEnabled(false);
@@ -324,14 +310,7 @@ public class DialogueCustomCommands extends JDialog {
 		p4btn = new JButton("file");
 		p4btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DialogueCustomFileChooser dialogue = new DialogueCustomFileChooser(window);
-		        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		        final int x = (screenSize.width - dialogue.getWidth()) / 2;
-		        final int y = (screenSize.height - dialogue.getHeight()) / 2;
-		        dialogue.setLocation(x, y);
-		        dialogue.setVisible(true);
-		        String userCommand = (DialogueCustomFileChooser.getCommand().isEmpty())?null:DialogueCustomFileChooser.getCommand();
-		        p4text.setText(userCommand);
+				fileParamButtonActionPerformed(e, p4text);
 			}
 		});
 		p4btn.setEnabled(false);
@@ -358,14 +337,7 @@ public class DialogueCustomCommands extends JDialog {
 		p5btn = new JButton("file");
 		p5btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DialogueCustomFileChooser dialogue = new DialogueCustomFileChooser(window);
-		        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		        final int x = (screenSize.width - dialogue.getWidth()) / 2;
-		        final int y = (screenSize.height - dialogue.getHeight()) / 2;
-		        dialogue.setLocation(x, y);
-		        dialogue.setVisible(true);
-		        String userCommand = (DialogueCustomFileChooser.getCommand().isEmpty())?null:DialogueCustomFileChooser.getCommand();
-		        p5text.setText(userCommand);
+				fileParamButtonActionPerformed(e, p5text);
 			}
 		});
 		p5btn.setEnabled(false);
@@ -392,14 +364,7 @@ public class DialogueCustomCommands extends JDialog {
 		p6btn = new JButton("file");
 		p6btn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DialogueCustomFileChooser dialogue = new DialogueCustomFileChooser(window);
-		        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		        final int x = (screenSize.width - dialogue.getWidth()) / 2;
-		        final int y = (screenSize.height - dialogue.getHeight()) / 2;
-		        dialogue.setLocation(x, y);
-		        dialogue.setVisible(true);
-		        String userCommand = (DialogueCustomFileChooser.getCommand().isEmpty())?null:DialogueCustomFileChooser.getCommand();
-		        p6text.setText(userCommand);
+				fileParamButtonActionPerformed(e, p1text);
 			}
 		});
 		p6btn.setEnabled(false);
@@ -435,6 +400,40 @@ public class DialogueCustomCommands extends JDialog {
 					}
 				});
 				
+				addPrefixChk = new JCheckBox("Add prefix");
+				addPrefixChk.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						addPrefixActionPerformed(e);
+					}
+				});
+				addPrefixChk.setFocusable(false);
+				addPrefixChk.setFocusPainted(false);
+				buttonPane.add(addPrefixChk);
+				
+				lblOSPrefix = new JLabel("(for your os is '')");
+				lblOSPrefix.setEnabled(false);
+				buttonPane.add(lblOSPrefix);
+				
+				addCurFilechk = new JCheckBox("${CurrentFile}");
+				addCurFilechk.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						addCurrFileActionPerformed(e);
+					}
+				});
+				addCurFilechk.setFocusable(false);
+				addCurFilechk.setFocusPainted(false);
+				buttonPane.add(addCurFilechk);
+				
+				addCurrFolderChk = new JCheckBox("${currentFolder}");
+				addCurrFolderChk.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						addCurrFolderActionPerformed(e);
+					}
+				});
+				addCurrFolderChk.setFocusable(false);
+				addCurrFolderChk.setFocusPainted(false);
+				buttonPane.add(addCurrFolderChk);
+				
 				JLabel label_1 = new JLabel("");
 				label_1.setToolTipText("<html><span color=\"blue\">Click on any path to set the input box.</span><br/>\r\n<br/>\r\nYou can customize the your preferred commands in:<br/>\r\n<span color=\"blue\">Window > Preferences >  QuickOpener\r\n</html>");
 				label_1.setIcon(new ImageIcon(DialogueCustomFileChooser.class.getResource("/com/sessonad/quickopener/icons/help.png")));
@@ -455,8 +454,53 @@ public class DialogueCustomCommands extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		lblOSPrefix.setText("(for your OS is: \'"+cmdos+"\')");
 		checkParameters();
 	}
+	
+	private void fileParamButtonActionPerformed(java.awt.event.ActionEvent evt,JTextField field) {  
+		DialogueCustomFileChooser dialogue = new DialogueCustomFileChooser(null,true,window);
+        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        final int x = (screenSize.width - dialogue.getWidth()) / 2;
+        final int y = (screenSize.height - dialogue.getHeight()) / 2;
+        dialogue.setLocation(x, y);
+        dialogue.setVisible(true);
+        String userCommand = (DialogueCustomFileChooser.getCommand().isEmpty())?null:DialogueCustomFileChooser.getCommand();
+        field.setText(userCommand);
+	}
+	
+	private void addPrefixActionPerformed(java.awt.event.ActionEvent evt) { 
+		if (cmdos==null) return;
+	    boolean value = addPrefixChk.isSelected();
+	    String text= cmdText.getText();
+	    if(value && text!=null && !text.startsWith(cmdos)){
+	        text=cmdos + text;
+	    }else if(!value && text!=null && text.startsWith(cmdos)){
+	        text=text.replaceAll(cmdos, "");
+	    }
+	    cmdText.setText(text);
+	}
+	
+	private void addCurrFileActionPerformed(java.awt.event.ActionEvent evt) { 
+		boolean value = addCurFilechk.isSelected();
+        String text= cmdText.getText();
+        if(value && !text.contains("${currentFile}"))
+            text=text + " ${currentFile}";  
+        else if(!value && text.contains("${currentFile}"))
+            text=text.replaceAll("\\$\\{currentFile\\}", ""); 
+        cmdText.setText(text);	
+	}
+	
+	private void addCurrFolderActionPerformed(java.awt.event.ActionEvent evt) { 
+		boolean value = addCurFilechk.isSelected();
+        String text= cmdText.getText();
+        if(value && !text.contains("${currentFolder}"))
+            text=text + " ${currentFolder}";  
+        else if(!value && text.contains("${currentFolder}"))
+            text=text.replaceAll("\\$\\{currentFolder\\}", ""); 
+        cmdText.setText(text);	
+	}
+	
 	
 	private void checkParameters() {
         String text=cmdText.getText();

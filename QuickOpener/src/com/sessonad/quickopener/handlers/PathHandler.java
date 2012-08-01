@@ -32,7 +32,7 @@ public class PathHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
 		try {
-			String path=PathFinder.getPathFromSelection(window);
+			String path=PathFinder.getPathFromSelection(true,window);
             Toolkit toolkit = Toolkit.getDefaultToolkit();
             Clipboard clipboard = toolkit.getSystemClipboard();
             StringSelection strSel = new StringSelection(path);

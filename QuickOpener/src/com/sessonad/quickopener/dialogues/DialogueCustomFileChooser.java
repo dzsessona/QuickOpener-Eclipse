@@ -89,7 +89,7 @@ public class DialogueCustomFileChooser extends JDialog {
 	 */
 	public static void main(String[] args) {
 		try {
-			DialogueCustomFileChooser dialog = new DialogueCustomFileChooser(null);
+			DialogueCustomFileChooser dialog = new DialogueCustomFileChooser(null,false, null);
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -100,7 +100,8 @@ public class DialogueCustomFileChooser extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public DialogueCustomFileChooser(IWorkbenchWindow window) {
+	public DialogueCustomFileChooser(java.awt.Frame parent, boolean modal,final IWorkbenchWindow window) {
+		super(parent,modal);
 		setTitle("Choose file...");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(DialogueCustomFileSystem.class.getResource("/com/sessonad/quickopener/icons/folder-documents-icon-cu.png")));
 		this.window=window;
@@ -209,7 +210,7 @@ public class DialogueCustomFileChooser extends JDialog {
 		));
 		table.setBackground(UIManager.getColor("Button.background"));
 		
-		table.setModel(new PropertyTableModel("folder"));
+		table.setModel(new PropertyTableModel("places"));
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		
 		JLabel lblWorkspace = new JLabel("Workspace:");
@@ -235,17 +236,17 @@ public class DialogueCustomFileChooser extends JDialog {
 		
 		
 		try {
-			selectioPath=PathFinder.getPathFromSelection(window);
+			selectioPath=PathFinder.getPathFromSelection(true,window);
 			if(selectioPath!=null){
 				lblSelFile.setEnabled(true);
 				lblSelFile.setText(getPathLongerThan(selectioPath));
 	        }
-			workbenchPath=PathFinder.getPathFromWorkBench(window);
+			workbenchPath=PathFinder.getPathFromWorkBench(true,window);
 			if(workbenchPath!=null){
 				lblWorksp.setEnabled(true);
 				lblWorksp.setText(getPathLongerThan(workbenchPath));
 	        }
-			mainProjectPath=PathFinder.getPathFromProject(window);
+			mainProjectPath=PathFinder.getPathFromProject(true,window);
 			if(mainProjectPath!=null){
 				lblMainProj.setEnabled(true);
 				lblMainProj.setText(getPathLongerThan(mainProjectPath));

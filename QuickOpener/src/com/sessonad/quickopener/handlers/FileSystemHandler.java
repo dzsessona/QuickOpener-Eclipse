@@ -31,7 +31,7 @@ public class FileSystemHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
 		try {
-        	File toOpen = PathFinder.getFileFromSelection(window);
+        	File toOpen = PathFinder.getFileFromSelection(false,window);
             Commands.getPlatform().browseInFileSystem(toOpen);
 	    } catch (Exception ex) {
 	        MessageDialog.openInformation(window.getShell(),"error", ex.getMessage());

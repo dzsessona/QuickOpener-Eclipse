@@ -3,15 +3,11 @@ package com.sessonad.quickopener.handlers;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
-import javax.swing.JOptionPane;
-
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
-
-import com.sessonad.oscommands.commands.Commands;
 import com.sessonad.quickopener.dialogues.DialogueCustomTerminal;
 
 /**
@@ -34,7 +30,7 @@ public class CustomTerminalHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {			
 		try {
 			IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
-			DialogueCustomTerminal dialogue = new DialogueCustomTerminal(window);
+			DialogueCustomTerminal dialogue = new DialogueCustomTerminal(null,true,window);
 			final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             final int x = (screenSize.width - dialogue.getWidth()) / 2;
             final int y = (screenSize.height - dialogue.getHeight()) / 2;

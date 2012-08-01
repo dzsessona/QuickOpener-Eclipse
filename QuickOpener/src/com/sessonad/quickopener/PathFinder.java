@@ -36,6 +36,8 @@ public class PathFinder {
     	return false;
     }
     
+	
+	
     private static IPath getIFileFromSelection(IWorkbenchWindow window){
     	IPath iPath = null;
     	ISelection selection=window.getSelectionService().getSelection();
@@ -59,14 +61,26 @@ public class PathFinder {
     	return iPath;
     }
     
-    public static String getPathFromSelection(IWorkbenchWindow window) throws Exception{
-        return getFileFromSelection(window).getAbsolutePath();
+    public static File getFileFromSelection(boolean file,IWorkbenchWindow window) throws Exception{
+    	File current = getIFileFromSelection(window).toFile();
+    	if(!file && !current.isDirectory()){
+        	return current.getParentFile();
+        }else{
+        	return current;
+        }
     }
     
-    public static File getFileFromSelection(IWorkbenchWindow window) throws Exception{
-    	File current = getIFileFromSelection(window).toFile();
-        return (current.isDirectory())?current:current.getParentFile();
+    public static String getPathFromSelection(boolean file,IWorkbenchWindow window) throws Exception{
+        File select = getIFileFromSelection(window).toFile();
+    	if(!file && !select.isDirectory()){
+        	return select.getParentFile().getAbsolutePath();
+        }else{
+        	return select.getAbsolutePath();
+        }
+    	
     }
+    
+    
     
     
     
@@ -77,14 +91,25 @@ public class PathFinder {
     	return root.getLocation();
     }
     
-    public static File getFileFromWorkBench(IWorkbenchWindow window){
+    public static File getFileFromWorkBench(boolean file,IWorkbenchWindow window)throws Exception{
     	File current = getIFileFromWorkBench(window).toFile();
-        return (current.isDirectory())?current:current.getParentFile();
+    	if(!file && !current.isDirectory()){
+        	return current.getParentFile();
+        }else{
+        	return current;
+        }
     }
     
-    public static String getPathFromWorkBench(IWorkbenchWindow window) throws Exception{
-        return getFileFromWorkBench(window).getAbsolutePath();
+    public static String getPathFromWorkBench(boolean file,IWorkbenchWindow window) throws Exception{
+    	File select = getIFileFromWorkBench(window).toFile();
+    	if(!file && !select.isDirectory()){
+        	return select.getParentFile().getAbsolutePath();
+        }else{
+        	return select.getAbsolutePath();
+        }
     }
+    
+    
     
     
 	private static IPath getIFileFromProject(IWorkbenchWindow window) {
@@ -112,13 +137,22 @@ public class PathFinder {
 		return activeProject.getLocation();
 	}
     
-    public static File getFileFromProject(IWorkbenchWindow window){
+    public static File getFileFromProject(boolean file,IWorkbenchWindow window){
     	File current = getIFileFromProject(window).toFile();
-        return (current.isDirectory())?current:current.getParentFile();
+    	if(!file && !current.isDirectory()){
+        	return current.getParentFile();
+        }else{
+        	return current;
+        }
     }
     
-    public static String getPathFromProject(IWorkbenchWindow window) throws Exception{
-        return getFileFromProject(window).getAbsolutePath();
+    public static String getPathFromProject(boolean file,IWorkbenchWindow window) throws Exception{
+    	File select = getIFileFromProject(window).toFile();
+    	if(!file && !select.isDirectory()){
+        	return select.getParentFile().getAbsolutePath();
+        }else{
+        	return select.getAbsolutePath();
+        }
     }
     
 

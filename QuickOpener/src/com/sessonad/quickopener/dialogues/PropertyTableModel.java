@@ -17,7 +17,7 @@ public class PropertyTableModel extends AbstractTableModel{
 
 	public PropertyTableModel(String prefix) {
 	    try {
-	        List<QuickOpenerProperty> prefs = PreferenceUtils.getAllMatching(prefix);
+	        List<QuickOpenerProperty> prefs = PreferenceUtils.getAll(prefix);
 	        this.data = new Object[prefs.size()][2];
 	        for (int i = 0; i < prefs.size(); i++) {
 	            QuickOpenerProperty pref = prefs.get(i);

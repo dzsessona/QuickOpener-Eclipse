@@ -23,6 +23,8 @@ public class PreferencePage
 	extends FieldEditorPreferencePage
 	implements IWorkbenchPreferencePage {
 
+	public static final String P_STRING = "stringPreference";
+	
 	public PreferencePage() {
 		super(GRID);
 		setPreferenceStore(Activator.getDefault().getPreferenceStore());
@@ -52,7 +54,7 @@ public class PreferencePage
 //				"C&hoice 2", "choice2" }
 //		}, getFieldEditorParent()));
 		addField(
-			new StringFieldEditor(PreferenceConstants.P_STRING, "Set custom command:", getFieldEditorParent()));
+			new StringFieldEditor(P_STRING, "Set custom command:", getFieldEditorParent()));
 	}
 
 	/* (non-Javadoc)

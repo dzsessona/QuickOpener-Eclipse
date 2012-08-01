@@ -28,7 +28,7 @@ public class TerminalHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);	
 		try {
-            String path=PathFinder.getPathFromSelection(window);
+            String path=PathFinder.getPathFromSelection(false,window);
             Commands.getPlatform().openInShell(path);
         } catch (Exception ex) {
         	//ex.printStackTrace();
