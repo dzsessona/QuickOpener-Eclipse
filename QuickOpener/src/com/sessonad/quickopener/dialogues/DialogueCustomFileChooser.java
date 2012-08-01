@@ -35,6 +35,7 @@ public class DialogueCustomFileChooser extends JDialog {
 	private JTable table;	
     public static final int CHARSNUMBER = 80;
     private IWorkbenchWindow window;
+    private static String command;
     
     private String selectioPath;
     private String workbenchPath;
@@ -70,8 +71,8 @@ public class DialogueCustomFileChooser extends JDialog {
         }
     }
 	
-	public String getCommand(){
-        return cmdText.getText();
+	public static String getCommand(){
+        return command;
     }
     
     /**
@@ -270,15 +271,11 @@ public class DialogueCustomFileChooser extends JDialog {
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						File file= new File(cmdText.getText());
-				        if(file.exists()&& file.isDirectory()){
-				        	try {
-				        		Commands.getPlatform().browseInFileSystem(file);								
-							} catch (Exception e) {								
-								e.printStackTrace();
-							}
+				        if(file.exists()){
+				        	command = cmdText.getText();
 				        	doClose();
 				        }else{
-				        	
+				        	doClose();
 				        }
 					}
 				});
@@ -296,6 +293,7 @@ public class DialogueCustomFileChooser extends JDialog {
 				cancelButton.setFocusPainted(false);
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
+						command = null;
 						doClose();
 					}
 				});

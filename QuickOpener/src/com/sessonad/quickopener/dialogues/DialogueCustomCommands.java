@@ -1,6 +1,7 @@
 package com.sessonad.quickopener.dialogues;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Toolkit;
 import javax.swing.JButton;
@@ -8,6 +9,8 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 import javax.swing.JTextField;
@@ -24,6 +27,7 @@ import java.io.File;
 import javax.swing.JScrollPane;
 import org.eclipse.ui.IWorkbenchWindow;
 import com.sessonad.oscommands.commands.Commands;
+import java.awt.Component;
 
 public class DialogueCustomCommands extends JDialog {
 
@@ -34,6 +38,25 @@ public class DialogueCustomCommands extends JDialog {
 	private JTable table;	
     public static final int CHARSNUMBER = 80;
     private IWorkbenchWindow window;
+    private JTextField p1text;
+    private JTextField p2text;
+    private JTextField p3text;
+    private JTextField p4text;
+    private JTextField p5text;
+    private JTextField p6text;
+    private JLabel p1label;
+    private JLabel p2label;
+    private JLabel p3label;
+    private JLabel p4label;
+    private JLabel p5label;
+    private JLabel p6label;
+    private JButton p1btn;
+    private JButton p2btn;
+    private JButton p3btn;
+    private JButton p4btn;
+    private JButton p5btn;
+    private JButton p6btn;
+    
 
 	
 	static {
@@ -95,11 +118,11 @@ public class DialogueCustomCommands extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public DialogueCustomCommands(IWorkbenchWindow window) {
+	public DialogueCustomCommands(final IWorkbenchWindow window) {
 		setTitle("Run command...");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(DialogueCustomCommands.class.getResource("/com/sessonad/quickopener/icons/run.png")));
 		this.window=window;
-		setBounds(100, 100, 497, 441);
+		setBounds(100, 100, 574, 455);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
@@ -110,9 +133,17 @@ public class DialogueCustomCommands extends JDialog {
 		contentPanel.add(lblOopenShellIn);
 		
 		cmdText = new JTextField();
-		cmdText.setBounds(91, 39, 357, 20);
+		cmdText.setBounds(91, 39, 417, 20);
 		contentPanel.add(cmdText);
 		cmdText.setColumns(10);
+		cmdText.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {checkParameters();}            
+            @Override
+            public void removeUpdate(DocumentEvent e) {checkParameters();}
+            @Override
+            public void insertUpdate(DocumentEvent e) {checkParameters();}
+        });
 		
 		JLabel label = new JLabel("");
 		label.setBounds(10, 132, 46, 14);
@@ -126,7 +157,7 @@ public class DialogueCustomCommands extends JDialog {
 		contentPanel.add(lblFavo);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 184, 461, 175);
+		scrollPane.setBounds(10, 184, 538, 175);
 		contentPanel.add(scrollPane);
 		
 		table = new JTable();
@@ -169,6 +200,215 @@ public class DialogueCustomCommands extends JDialog {
 		lblIcon.setIcon(new ImageIcon(DialogueCustomCommands.class.getResource("/com/sessonad/quickopener/icons/run48.png")));
 		lblIcon.setBounds(20, 11, 61, 60);
 		contentPanel.add(lblIcon);
+		
+		JPanel panel = new JPanel();
+		panel.setBounds(91, 70, 417, 84);
+		contentPanel.add(panel);
+		panel.setLayout(null);
+		
+		p1label = new JLabel("${param1}:");
+		p1label.setEnabled(false);
+		p1label.setForeground(Color.BLACK);
+		p1label.setFont(new Font("Arial", Font.BOLD, 11));
+		p1label.setBounds(0, 3, 64, 14);
+		panel.add(p1label);
+		
+		p1text = new JTextField();
+		p1text.setEnabled(false);
+		p1text.setBounds(64, 0, 78, 20);
+		panel.add(p1text);
+		p1text.setColumns(10);
+		
+		p1btn = new JButton("file");
+		p1btn.setEnabled(false);
+		p1btn.setBorderPainted(false);
+		p1btn.setFocusable(false);
+		p1btn.setFocusPainted(false);
+		p1btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				DialogueCustomFileChooser dialogue = new DialogueCustomFileChooser(window);
+		        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		        final int x = (screenSize.width - dialogue.getWidth()) / 2;
+		        final int y = (screenSize.height - dialogue.getHeight()) / 2;
+		        dialogue.setLocation(x, y);
+		        dialogue.setVisible(true);
+		        String userCommand = (DialogueCustomFileChooser.getCommand().isEmpty())?null:DialogueCustomFileChooser.getCommand();
+		        p1text.setText(userCommand);
+			}
+		});
+		p1btn.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		p1btn.setBounds(148, -1, 47, 23);
+		panel.add(p1btn);
+		
+		p2label = new JLabel("${param2}:");
+		p2label.setEnabled(false);
+		p2label.setForeground(Color.BLACK);
+		p2label.setFont(new Font("Arial", Font.BOLD, 11));
+		p2label.setBounds(0, 27, 64, 14);
+		panel.add(p2label);
+		
+		p2text = new JTextField();
+		p2text.setEnabled(false);
+		p2text.setColumns(10);
+		p2text.setBounds(64, 25, 78, 20);
+		panel.add(p2text);
+		
+		p2btn = new JButton("file");
+		p2btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				DialogueCustomFileChooser dialogue = new DialogueCustomFileChooser(window);
+		        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		        final int x = (screenSize.width - dialogue.getWidth()) / 2;
+		        final int y = (screenSize.height - dialogue.getHeight()) / 2;
+		        dialogue.setLocation(x, y);
+		        dialogue.setVisible(true);
+		        String userCommand = (DialogueCustomFileChooser.getCommand().isEmpty())?null:DialogueCustomFileChooser.getCommand();
+		        p2text.setText(userCommand);
+			}
+		});
+		p2btn.setEnabled(false);
+		p2btn.setBorderPainted(false);
+		p2btn.setFocusable(false);
+		p2btn.setFocusPainted(false);
+		p2btn.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		p2btn.setBounds(148, 23, 47, 23);
+		panel.add(p2btn);
+		
+		p3label = new JLabel("${param3}:");
+		p3label.setEnabled(false);
+		p3label.setForeground(Color.BLACK);
+		p3label.setFont(new Font("Arial", Font.BOLD, 11));
+		p3label.setBounds(0, 52, 64, 14);
+		panel.add(p3label);
+		
+		p3text = new JTextField();
+		p3text.setEnabled(false);
+		p3text.setColumns(10);
+		p3text.setBounds(64, 49, 78, 20);
+		panel.add(p3text);
+		
+		p3btn = new JButton("file");
+		p3btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DialogueCustomFileChooser dialogue = new DialogueCustomFileChooser(window);
+		        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		        final int x = (screenSize.width - dialogue.getWidth()) / 2;
+		        final int y = (screenSize.height - dialogue.getHeight()) / 2;
+		        dialogue.setLocation(x, y);
+		        dialogue.setVisible(true);
+		        String userCommand = (DialogueCustomFileChooser.getCommand().isEmpty())?null:DialogueCustomFileChooser.getCommand();
+		        p3text.setText(userCommand);
+			}
+		});
+		p3btn.setEnabled(false);
+		p3btn.setBorderPainted(false);
+		p3btn.setFocusable(false);
+		p3btn.setFocusPainted(false);
+		p3btn.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		p3btn.setBounds(148, 48, 47, 23);
+		panel.add(p3btn);
+		
+		p4label = new JLabel("${param4}:");
+		p4label.setEnabled(false);
+		p4label.setForeground(Color.BLACK);
+		p4label.setFont(new Font("Arial", Font.BOLD, 11));
+		p4label.setBounds(225, 3, 58, 14);
+		panel.add(p4label);
+		
+		p4text = new JTextField();
+		p4text.setEnabled(false);
+		p4text.setColumns(10);
+		p4text.setBounds(289, 0, 78, 20);
+		panel.add(p4text);
+		
+		p4btn = new JButton("file");
+		p4btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DialogueCustomFileChooser dialogue = new DialogueCustomFileChooser(window);
+		        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		        final int x = (screenSize.width - dialogue.getWidth()) / 2;
+		        final int y = (screenSize.height - dialogue.getHeight()) / 2;
+		        dialogue.setLocation(x, y);
+		        dialogue.setVisible(true);
+		        String userCommand = (DialogueCustomFileChooser.getCommand().isEmpty())?null:DialogueCustomFileChooser.getCommand();
+		        p4text.setText(userCommand);
+			}
+		});
+		p4btn.setEnabled(false);
+		p4btn.setBorderPainted(false);
+		p4btn.setFocusable(false);
+		p4btn.setFocusPainted(false);
+		p4btn.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		p4btn.setBounds(370, -1, 47, 23);
+		panel.add(p4btn);
+		
+		p5label = new JLabel("${param5}:");
+		p5label.setEnabled(false);
+		p5label.setForeground(Color.BLACK);
+		p5label.setFont(new Font("Arial", Font.BOLD, 11));
+		p5label.setBounds(225, 27, 58, 14);
+		panel.add(p5label);
+		
+		p5text = new JTextField();
+		p5text.setEnabled(false);
+		p5text.setColumns(10);
+		p5text.setBounds(289, 24, 78, 20);
+		panel.add(p5text);
+		
+		p5btn = new JButton("file");
+		p5btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DialogueCustomFileChooser dialogue = new DialogueCustomFileChooser(window);
+		        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		        final int x = (screenSize.width - dialogue.getWidth()) / 2;
+		        final int y = (screenSize.height - dialogue.getHeight()) / 2;
+		        dialogue.setLocation(x, y);
+		        dialogue.setVisible(true);
+		        String userCommand = (DialogueCustomFileChooser.getCommand().isEmpty())?null:DialogueCustomFileChooser.getCommand();
+		        p5text.setText(userCommand);
+			}
+		});
+		p5btn.setEnabled(false);
+		p5btn.setBorderPainted(false);
+		p5btn.setFocusable(false);
+		p5btn.setFocusPainted(false);
+		p5btn.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		p5btn.setBounds(370, 23, 47, 23);
+		panel.add(p5btn);
+		
+		p6label = new JLabel("${param6}:");
+		p6label.setEnabled(false);
+		p6label.setForeground(Color.BLACK);
+		p6label.setFont(new Font("Arial", Font.BOLD, 11));
+		p6label.setBounds(225, 52, 58, 14);
+		panel.add(p6label);
+		
+		p6text = new JTextField();
+		p6text.setEnabled(false);
+		p6text.setColumns(10);
+		p6text.setBounds(289, 49, 78, 20);
+		panel.add(p6text);
+		
+		p6btn = new JButton("file");
+		p6btn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				DialogueCustomFileChooser dialogue = new DialogueCustomFileChooser(window);
+		        final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		        final int x = (screenSize.width - dialogue.getWidth()) / 2;
+		        final int y = (screenSize.height - dialogue.getHeight()) / 2;
+		        dialogue.setLocation(x, y);
+		        dialogue.setVisible(true);
+		        String userCommand = (DialogueCustomFileChooser.getCommand().isEmpty())?null:DialogueCustomFileChooser.getCommand();
+		        p6text.setText(userCommand);
+			}
+		});
+		p6btn.setEnabled(false);
+		p6btn.setBorderPainted(false);
+		p6btn.setFocusable(false);
+		p6btn.setFocusPainted(false);
+		p6btn.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		p6btn.setBounds(370, 48, 47, 23);
+		panel.add(p6btn);
 		table.getColumnModel().getColumn(0).setPreferredWidth(150);
 		table.getColumnModel().getColumn(0).setMaxWidth(400);
 		table.getColumnModel().getColumn(0).setMinWidth(100);		
@@ -215,5 +455,40 @@ public class DialogueCustomCommands extends JDialog {
 				buttonPane.add(cancelButton);
 			}
 		}
+		checkParameters();
 	}
+	
+	private void checkParameters() {
+        String text=cmdText.getText();
+        boolean p1 = text.contains("${param1}");
+        p1label.setEnabled(p1);
+        p1text.setEnabled(p1);
+        p1btn.setEnabled(p1);
+        if(!p1)p1text.setText("");
+        boolean p2 = text.contains("${param2}");
+        p2label.setEnabled(p2);
+        p2text.setEnabled(p2);
+        p2btn.setEnabled(p2);
+        if(!p2)p2text.setText("");        
+        boolean p3 = text.contains("${param3}");
+        p3label.setEnabled(p3);
+        p3text.setEnabled(p3);
+        p3btn.setEnabled(p3);
+        if(!p3)p3text.setText("");        
+        boolean p4 = text.contains("${param4}");
+        p4label.setEnabled(p4);
+        p4text.setEnabled(p4);
+        p4btn.setEnabled(p4);
+        if(!p4)p4text.setText("");
+        boolean p5 = text.contains("${param5}");
+        p5label.setEnabled(p5);
+        p5text.setEnabled(p5);
+        p5btn.setEnabled(p5);
+        if(!p5)p5text.setText("");
+        boolean p6 = text.contains("${param6}");
+        p6label.setEnabled(p6);
+        p6text.setEnabled(p6);
+        p6btn.setEnabled(p6);
+        if(!p6)p6text.setText("");
+    }
 }

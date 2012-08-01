@@ -36,7 +36,7 @@ public class CustomFileSystemHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		try {
 			IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
-			DialogueCustomCommands dialogue = new DialogueCustomCommands(window);
+			DialogueCustomFileSystem dialogue = new DialogueCustomFileSystem(window);			
 			final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             final int x = (screenSize.width - dialogue.getWidth()) / 2;
             final int y = (screenSize.height - dialogue.getHeight()) / 2;
