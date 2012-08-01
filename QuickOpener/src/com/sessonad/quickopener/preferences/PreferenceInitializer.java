@@ -10,7 +10,6 @@ import com.sessonad.quickopener.Activator;
  */
 public class PreferenceInitializer extends AbstractPreferenceInitializer {
 
-	public static final String P_STRING = "stringPreference";
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -18,7 +17,10 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 	 */
 	public void initializeDefaultPreferences() {
 		IPreferenceStore store = Activator.getDefault().getPreferenceStore();
-		store.setDefault(P_STRING, "cmd /c start");
+		store.setDefault(PreferenceConstants.P_BOOLEAN, true);
+		store.setDefault(PreferenceConstants.P_CHOICE, "choice2");
+		store.setDefault(PreferenceConstants.P_STRING,
+				"Default value");
 	}
 
 }

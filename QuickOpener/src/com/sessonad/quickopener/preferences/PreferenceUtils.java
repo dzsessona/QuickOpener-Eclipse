@@ -8,6 +8,9 @@ import org.osgi.service.prefs.BackingStoreException;
 import org.osgi.service.prefs.Preferences;
 
 public class PreferenceUtils {
+	
+	public static final String PLACES="place";
+	public static final String COMMANDS="command";
 		
 	public static void storeProperty(String prefix, QuickOpenerProperty qoprop){
 		Preferences preferences = ConfigurationScope.INSTANCE.getNode("com.sessonad.quickopener");

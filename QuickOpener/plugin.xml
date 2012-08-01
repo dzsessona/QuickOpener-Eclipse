@@ -145,15 +145,24 @@
         </extension>
         
         <!-- preferences -->
-        <extension point="org.eclipse.ui.preferencePages">
-           <page class="com.sessonad.quickopener.preferences.PreferencePage"
-                 id="com.sessonad.quickopener.preferences.PreferencePage"
+        <extension point="org.eclipse.ui.preferencePages">           
+           <page class="com.sessonad.quickopener.preferences.MainPreferencePage"
+                 id="com.sessonad.quickopener.preferences.MainPreferencePage"
                  name="Quick Opener">
+           </page>
+           <page category="com.sessonad.quickopener.preferences.MainPreferencePage"
+           		 class="com.sessonad.quickopener.preferences.CommandsPreferencePage"
+                 id="com.sessonad.quickopener.preferences.CommandsPreferencePage"
+                 name="Custom Commands">
+           </page>
+           <page category="com.sessonad.quickopener.preferences.MainPreferencePage"
+           		 class="com.sessonad.quickopener.preferences.PlacesPreferencePage"
+                 id="com.sessonad.quickopener.preferences.PlacesPreferencePage"
+                 name="Favorite Places">
            </page>
         </extension>
         <extension point="org.eclipse.core.runtime.preferences">
            <initializer class="com.sessonad.quickopener.preferences.PreferenceInitializer">
-           </initializer>
-        </extension>
-        
+           </initializer>           
+        </extension>        
     </plugin>

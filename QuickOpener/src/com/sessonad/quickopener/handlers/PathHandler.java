@@ -12,6 +12,8 @@ import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.jface.dialogs.MessageDialog;
 
 import com.sessonad.quickopener.PathFinder;
+import com.sessonad.quickopener.preferences.PreferenceUtils;
+import com.sessonad.quickopener.preferences.QuickOpenerProperty;
 
 /**
  * Our sample handler extends AbstractHandler, an IHandler base class.
@@ -32,6 +34,10 @@ public class PathHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
 		try {
+//			PreferenceUtils.storeProperty(PreferenceUtils.PLACES, new QuickOpenerProperty("Downloads","C:\\Users\\sessonad\\Desktop\\Downloads\\src"));
+//			PreferenceUtils.storeProperty(PreferenceUtils.PLACES, new QuickOpenerProperty("Desktop","C:\\Users\\sessonad\\Desktop"));
+//			PreferenceUtils.storeProperty(PreferenceUtils.COMMANDS, new QuickOpenerProperty("Zip Backup","cmd /c start 7z a C:\\develop\\backup\\${param1}.zip ${param2} -wC:\\Users\\sessonad\\temp"));
+//			
 			String path=PathFinder.getPathFromSelection(true,window);
             Toolkit toolkit = Toolkit.getDefaultToolkit();
             Clipboard clipboard = toolkit.getSystemClipboard();

@@ -27,6 +27,8 @@ import java.io.File;
 import javax.swing.JScrollPane;
 import org.eclipse.ui.IWorkbenchWindow;
 import com.sessonad.oscommands.commands.Commands;
+import com.sessonad.quickopener.preferences.PreferenceUtils;
+
 import java.awt.Component;
 import javax.swing.JCheckBox;
 
@@ -197,7 +199,7 @@ public class DialogueCustomCommands extends JDialog {
 		));
 		table.setBackground(UIManager.getColor("Button.background"));
 		
-		table.setModel(new PropertyTableModel("commands"));
+		table.setModel(new PropertyTableModel(PreferenceUtils.COMMANDS));
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		
 		

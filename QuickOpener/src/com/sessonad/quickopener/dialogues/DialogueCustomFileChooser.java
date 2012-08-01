@@ -25,6 +25,7 @@ import javax.swing.JScrollPane;
 import org.eclipse.ui.IWorkbenchWindow;
 import com.sessonad.oscommands.commands.Commands;
 import com.sessonad.quickopener.PathFinder;
+import com.sessonad.quickopener.preferences.PreferenceUtils;
 
 public class DialogueCustomFileChooser extends JDialog {
 
@@ -210,7 +211,7 @@ public class DialogueCustomFileChooser extends JDialog {
 		));
 		table.setBackground(UIManager.getColor("Button.background"));
 		
-		table.setModel(new PropertyTableModel("places"));
+		table.setModel(new PropertyTableModel(PreferenceUtils.PLACES));
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		
 		JLabel lblWorkspace = new JLabel("Workspace:");

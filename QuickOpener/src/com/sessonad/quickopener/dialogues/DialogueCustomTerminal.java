@@ -24,6 +24,7 @@ import org.eclipse.ui.IWorkbenchWindow;
 
 import com.sessonad.oscommands.commands.Commands;
 import com.sessonad.quickopener.PathFinder;
+import com.sessonad.quickopener.preferences.PreferenceUtils;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -209,7 +210,7 @@ public class DialogueCustomTerminal extends JDialog {
 		));
 		table.setBackground(UIManager.getColor("Button.background"));
 		
-		table.setModel(new PropertyTableModel("places"));
+		table.setModel(new PropertyTableModel(PreferenceUtils.PLACES));
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		
 		JLabel lblWorkspace = new JLabel("Workspace:");
