@@ -3,17 +3,13 @@ package com.sessonad.quickopener.handlers;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
-
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.eclipse.jface.dialogs.MessageDialog;
-
 import com.sessonad.quickopener.PathFinder;
-import com.sessonad.quickopener.preferences.PreferenceUtils;
-import com.sessonad.quickopener.preferences.QuickOpenerProperty;
 
 /**
  * Our sample handler extends AbstractHandler, an IHandler base class.

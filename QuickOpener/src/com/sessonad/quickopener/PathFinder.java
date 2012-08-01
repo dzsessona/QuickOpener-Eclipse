@@ -24,6 +24,7 @@ import org.eclipse.ui.ide.ResourceSelectionUtil;
 import org.eclipse.ui.ide.ResourceUtil;
 import org.eclipse.ui.views.navigator.ResourceNavigator;
 
+@SuppressWarnings("deprecation")
 public class PathFinder {
 
 	public static boolean hasFile(ISelection selection){

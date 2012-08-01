@@ -1,29 +1,31 @@
 package com.sessonad.quickopener.dialogues;
 
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import java.awt.Toolkit;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JPanel;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
-import javax.swing.JTextField;
-import java.awt.Font;
 import java.awt.Color;
-import javax.swing.JTable;
-import javax.swing.UIManager;
-import javax.swing.table.DefaultTableModel;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.EmptyBorder;
+import javax.swing.table.DefaultTableModel;
+
 import org.eclipse.ui.IWorkbenchWindow;
-import com.sessonad.oscommands.commands.Commands;
+
 import com.sessonad.quickopener.PathFinder;
 import com.sessonad.quickopener.preferences.PreferenceUtils;
 
@@ -35,7 +37,6 @@ public class DialogueCustomFileChooser extends JDialog {
 	private JTextField cmdText;
 	private JTable table;	
     public static final int CHARSNUMBER = 80;
-    private IWorkbenchWindow window;
     private static String command;
     
     private String selectioPath;
@@ -53,8 +54,6 @@ public class DialogueCustomFileChooser extends JDialog {
 	}
 	
 	
-
-
 	private String getPathLongerThan(String path){
         if(path.length()>=CHARSNUMBER){            
             String intpath = path.substring(path.length()-CHARSNUMBER);
@@ -105,7 +104,6 @@ public class DialogueCustomFileChooser extends JDialog {
 		super(parent,modal);
 		setTitle("Choose file...");
 		setIconImage(Toolkit.getDefaultToolkit().getImage(DialogueCustomFileSystem.class.getResource("/com/sessonad/quickopener/icons/folder-documents-icon-cu.png")));
-		this.window=window;
 		setBounds(100, 100, 497, 441);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

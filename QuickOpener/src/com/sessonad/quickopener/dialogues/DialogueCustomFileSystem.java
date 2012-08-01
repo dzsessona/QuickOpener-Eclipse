@@ -35,7 +35,8 @@ public class DialogueCustomFileSystem extends JDialog {
 	private JTextField cmdText;
 	private JTable table;	
     public static final int CHARSNUMBER = 80;
-    private IWorkbenchWindow window;
+    @SuppressWarnings("unused")
+	private IWorkbenchWindow window;
     
     private String selectioPath;
     private String workbenchPath;

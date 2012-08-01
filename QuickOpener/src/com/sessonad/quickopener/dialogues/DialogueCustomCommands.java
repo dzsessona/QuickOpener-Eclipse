@@ -28,8 +28,6 @@ import javax.swing.JScrollPane;
 import org.eclipse.ui.IWorkbenchWindow;
 import com.sessonad.oscommands.commands.Commands;
 import com.sessonad.quickopener.preferences.PreferenceUtils;
-
-import java.awt.Component;
 import javax.swing.JCheckBox;
 
 public class DialogueCustomCommands extends JDialog {
@@ -77,25 +75,6 @@ public class DialogueCustomCommands extends JDialog {
 		}
 	}
 	
-	
-
-
-	private String getPathLongerThan(String path){
-        if(path.length()>=CHARSNUMBER){            
-            String intpath = path.substring(path.length()-CHARSNUMBER);
-            int idx = intpath.indexOf("\\");
-            if(idx!=-1){
-                return "..." + intpath.substring(idx);
-            }
-            int adx = intpath.indexOf("/");
-            if(adx!=-1){
-                return "..." + intpath.substring(adx);
-            }
-            return "..." + intpath;
-        }else{
-            return path;
-        }
-    }
 	
 	public String getCommand(){
         return cmdText.getText();

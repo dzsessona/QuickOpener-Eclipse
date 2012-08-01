@@ -48,7 +48,7 @@ public class PropertyTableModel extends AbstractTableModel{
 	    return data[row][col];
 	}
 
-	public Class getColumnClass(int c) {
+	public Class<String> getColumnClass(int c) {
 	    return String.class;
 	}
 	
