@@ -15,13 +15,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -32,10 +32,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.table.DefaultTableModel;
-
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IWorkbenchWindow;
-
 import com.sessonad.oscommands.commands.Commands;
 import com.sessonad.quickopener.PathFinder;
 import com.sessonad.quickopener.preferences.PreferenceUtils;
@@ -74,6 +71,9 @@ public class DialogueCommands extends JDialog {
 	private IWorkbenchWindow window;
 	private String currentFile;
     private String currentFolder;
+    private String selectioPath;
+    private String workbenchPath;
+    private String mainProjectPath;
 	
 
 	static {
@@ -89,6 +89,8 @@ public class DialogueCommands extends JDialog {
 		
 	public DialogueCommands(java.awt.Frame parent, boolean modal,final IWorkbenchWindow window){
 		super(parent,modal);
+		setIconImage(Toolkit.getDefaultToolkit().getImage(DialogueCommands.class.getResource("/com/sessonad/quickopener/icons/run.png")));
+		setTitle("Launch custom command");
 		this.window=window;
 		initComponents();
 		try {
@@ -98,6 +100,11 @@ public class DialogueCommands extends JDialog {
 			currentFile = null;
 			currentFolder=null;
 		}
+		try {
+			selectioPath=PathFinder.getPathFromSelection(false,window);			
+			workbenchPath=PathFinder.getPathFromWorkBench(false,window);			
+			mainProjectPath=PathFinder.getPathFromProject(false,window);			
+		} catch (Exception e1) {}
 		table.setModel(new PropertyTableModel(PreferenceUtils.COMMANDS));
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_LAST_COLUMN);
 		table.getColumnModel().getColumn(0).setPreferredWidth(150);
@@ -137,6 +144,23 @@ public class DialogueCommands extends JDialog {
 		
 		okButton.addActionListener(new ActionListener() 	{ public void actionPerformed(ActionEvent e) {okActionPerformed(e);}});
 		cancelButton.addActionListener(new ActionListener() { public void actionPerformed(ActionEvent e) {cancelActionPerformed(e);}});
+		cmdText.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void changedUpdate(DocumentEvent e) {checkOkButton();}            
+            @Override
+            public void removeUpdate(DocumentEvent e) {checkOkButton();}
+            @Override
+            public void insertUpdate(DocumentEvent e) {checkOkButton();}
+        });
+		checkOkButton();
+	}
+	
+	public void checkOkButton(){		
+		try{
+			String text=cmdText.getText();
+			if(text == null || text.isEmpty()){okButton.setEnabled(false);return;}
+			else{okButton.setEnabled(true);return;}
+		}catch(Exception e){}		
 	}
 	
 	public void initComponents() {
@@ -587,6 +611,7 @@ public class DialogueCommands extends JDialog {
 	
 	private void okActionPerformed(java.awt.event.ActionEvent evt){
 		String command = cmdText.getText();
+		System.out.println("command: " + command);
 		if(command==null || command.isEmpty())return;
 		else {
 			if (command.contains("${param1}"))command = command.replace("${param1}", p1text.getText());
@@ -600,10 +625,10 @@ public class DialogueCommands extends JDialog {
 			if (command.contains("${currentFolder}") && currentFolder != null && !currentFolder.isEmpty())
 				command = command.replace("${currentFolder}", currentFolder);			
 			
-			if (command != null && command.isEmpty()) {
+			if (command != null && !command.isEmpty()) {
 				String msg=QuickMessages.CONFIRM_COMMAND_PREFIX+command+QuickMessages.CONFIRM_COMMAND_SUFFIX;
-				boolean result = MessageDialog.openConfirm(null, "Confirm command", msg);
-				if(result){
+				int result = JOptionPane.showConfirmDialog(this, msg, "Confirm",JOptionPane.OK_CANCEL_OPTION,JOptionPane.QUESTION_MESSAGE);
+				if(result==JOptionPane.OK_OPTION){
 					try {Runtime.getRuntime().exec(command);} catch (IOException e) {}
 					setVisible(false);
 			        dispose();
@@ -620,13 +645,14 @@ public class DialogueCommands extends JDialog {
 	}
 	
 	private void fileParamButtonActionPerformed(java.awt.event.ActionEvent evt,JTextField field) {  
-		DialogueCustomFileChooser dialogue = new DialogueCustomFileChooser(null,true,window);
+		DialoguePlaceChooser dialogue = new DialoguePlaceChooser(null,true,selectioPath,mainProjectPath,workbenchPath,window);
         final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         final int x = (screenSize.width - dialogue.getWidth()) / 2;
         final int y = (screenSize.height - dialogue.getHeight()) / 2;
         dialogue.setLocation(x, y);
         dialogue.setVisible(true);
-        String userCommand = (DialogueCustomFileChooser.getCommand().isEmpty())?null:DialogueCustomFileChooser.getCommand();
+        String temp =DialoguePlaceChooser.getPlaceSelected();
+        String userCommand = (temp==null || temp.isEmpty())?null:temp;
         field.setText(userCommand);
 	}
 	
