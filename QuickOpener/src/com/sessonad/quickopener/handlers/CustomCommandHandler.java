@@ -9,7 +9,7 @@ import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.handlers.HandlerUtil;
-import com.sessonad.quickopener.dialogues.DialogueCustomCommands;
+import com.sessonad.quickopener.dialogues.DialogueCommands;
 
 /**
  * Our sample handler extends AbstractHandler, an IHandler base class.
@@ -30,7 +30,7 @@ public class CustomCommandHandler extends AbstractHandler {
 	public Object execute(ExecutionEvent event) throws ExecutionException {
 		try {
 			IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
-			DialogueCustomCommands dialogue = new DialogueCustomCommands(null,true,window);
+			DialogueCommands dialogue = new DialogueCommands(null,true,window);
 			final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
             final int x = (screenSize.width - dialogue.getWidth()) / 2;
             final int y = (screenSize.height - dialogue.getHeight()) / 2;

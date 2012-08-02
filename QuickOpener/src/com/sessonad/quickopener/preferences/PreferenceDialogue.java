@@ -8,7 +8,6 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.border.EmptyBorder;
 
 public class PreferenceDialogue extends JDialog {
 
@@ -16,7 +15,6 @@ public class PreferenceDialogue extends JDialog {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private final JPanel contentPanel = new JPanel();
 
 	
 	static {
@@ -47,11 +45,8 @@ public class PreferenceDialogue extends JDialog {
 	 */
 	public PreferenceDialogue(java.awt.Frame parent, boolean modal) {
 		super(parent, modal);
-		setBounds(100, 100, 450, 300);
+		setBounds(100, 100, 450, 419);
 		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setLayout(new FlowLayout());
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		{
 			JPanel buttonPane = new JPanel();
 			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -69,5 +64,4 @@ public class PreferenceDialogue extends JDialog {
 			}
 		}
 	}
-
 }
